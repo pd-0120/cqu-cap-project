@@ -46,7 +46,11 @@ class User extends Authenticatable implements  MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    public function getUserNameAttribute() {
+    public function getFullNameAttribute() {
         return $this->first_name. " ". $this->last_name;
+    }
+
+    public function getRoleAttribute() {
+        return $this->roles ? $this->roles[0]->name : "";
     }
 }
