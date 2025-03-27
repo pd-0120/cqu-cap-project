@@ -31,8 +31,8 @@
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 			<!--begin::Logo-->
-			<a href="index.html">
-				<img alt="Logo" src="assets/media/logos/logo-1.svg" />
+			<a href="{{ route('dashboard') }}">
+				<img alt="Logo" src="{{ asset('assets/media/logos/logo-1.svg') }}" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -74,7 +74,6 @@
 							<!--begin::Container-->
 							<div class="container">
                                 {{ $slot }}
-								@yield('content')
 							</div>
 							<!--end::Container-->
 						</div>
