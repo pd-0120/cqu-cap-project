@@ -1,32 +1,63 @@
 @section('pageTitle', "Add New Patient")
 @section('pageActionData')
-<div class="dropdown dropdown-inline" data-toggle="tooltip" title="Quick actions" data-placement="top">
-    <a href="#" class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="svg-icon svg-icon-md">
+    <a href="{{ route('caretaker.patient.create') }}"
+        class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Add Patient</a>
 
-    </span>New Report</a>
-    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right p-0 m-0">
-        <!--begin::Navigation-->
-        <ul class="navi navi-hover">
-            <li class="navi-header font-weight-bold py-4">
-                <span class="font-size-lg">Choose Option:</span>
-                <i class="flaticon2-information icon-md text-muted" data-toggle="tooltip" data-placement="right" title="Click to learn more..."></i>
-            </li>
-            <li class="navi-separator mb-3 opacity-70"></li>
-            <li class="navi-item">
-                <a href="#" class="navi-link">
-                    <span class="navi-text">
-                        <span class="label label-xl label-inline label-light-primary">Orders</span>
-                    </span>
-                </a>
-            </li>
-        </ul>
-        <!--end::Navigation-->
-    </div>
-</div>
 @endsection
 <x-auth-layout>
-    
+    @session('message.level')
+        <x-alert-component />
+    @endsession
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-custom card-stretch gutter-b">
+                <div class="card-body pt-7">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table" id="datatable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Care Home Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @push('UserJS')
+        <script>
+            $(document).ready(function () {
+                var table = $('#datatable');
+                table.DataTable({
+                    responsive: true,
+                    searchDelay: 500,
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('caretaker.patient.index') }}",
+                        type: 'GET',
+                    },
+                    columns: [
+                        { data: 'id' },
+                        { data: 'first_name' },
+                        { data: 'last_name' },
+                        { data: 'user_detail.status' },
+                        { data: 'email' },
+                        { data: 'user_detail.phone' },
+                        { data: 'user_detail.street' },
+                    ],
+                });
+            });
+        </script>
     @endpush
 </x-auth-layout>

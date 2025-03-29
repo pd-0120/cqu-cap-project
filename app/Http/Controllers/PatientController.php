@@ -8,15 +8,23 @@ use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Nette\Utils\Random;
+use Yajra\DataTables\Facades\DataTables;
 
 class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->ajax()) {
+            $model = User::query()->with('userDetail');
+    
+            return DataTables::eloquent($model)->make(true);
+        }
+
         return view('caretaker.patient.index');
     }
 
@@ -55,7 +63,10 @@ class PatientController extends Controller
             'state' => $request->state,
         ]);
 
+        Session::flash('message.level','success');
+        Session::flash('message.content','Patient added successfully.');
         
+        return redirect()->route('caretaker.patient.index');        
     }
 
     /**
@@ -87,6 +98,11 @@ class PatientController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        Session::flash('message.level','success');
+        Session::flash('message.content','Patient deleted successfully.');
+        
+        return redirect()->route('caretaker.patient.index');  
     }
 }

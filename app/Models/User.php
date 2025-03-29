@@ -54,4 +54,13 @@ class User extends Authenticatable implements  MustVerifyEmail
     public function getRoleAttribute() {
         return $this->roles ? $this->roles[0]->name : "";
     }
+
+    public function userDetail() {
+        return $this->hasOne(UserDetail::class);
+    }
+
+    public function delete() {
+        $this->userDetail()->delete();
+        return parent::delete();
+    }
 }

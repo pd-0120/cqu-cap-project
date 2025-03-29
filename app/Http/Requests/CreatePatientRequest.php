@@ -36,11 +36,18 @@ class CreatePatientRequest extends FormRequest
         return [
             "first_name" => ['required','max:25'],
             "last_name" => ['required','max:25'],
-            "phone" => ['required'],
+            "phone" => ['required', 'regex:/^(?:\+61|0)[2-478](?:[ -]?[0-9]){8}$/'],
             "email" => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             "emergency_contact" => ['required','max:25'],
-            "emergency_phone" => ['required'],
+            "emergency_phone" => ['required', 'regex:/^(?:\+61|0)[2-478](?:[ -]?[0-9]){8}$/'],
             "medical_history" => ['sometimes', 'max:200'],
+        ];
+    }
+
+    public function messages(): array {
+        return [
+            'phone.regex' => 'The phone number format is invalid. It must be a valid Australian number.',
+            'emergency_phone.regex' => 'The phone number format is invalid. It must be a valid Australian number.',
         ];
     }
 }
