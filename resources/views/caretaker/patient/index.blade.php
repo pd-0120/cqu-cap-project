@@ -1,4 +1,4 @@
-@section('pageTitle', "Dashboard")
+@section('pageTitle', "Add New Patient")
 @section('pageActionData')
 <div class="dropdown dropdown-inline" data-toggle="tooltip" title="Quick actions" data-placement="top">
     <a href="#" class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

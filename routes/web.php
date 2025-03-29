@@ -23,7 +23,7 @@ Route::middleware('patientAccess')->group(function () {
     require __DIR__.'/patient.php';
 });
 // All the caretaker acccessible routes
-Route::middleware('caretakerAccess')->group(function () {
+Route::middleware('caretakerAccess')->name('caretaker.')->prefix('caretaker')->group(function () {
     require __DIR__.'/caretaker.php';
 });
 // All the user acccessible routes

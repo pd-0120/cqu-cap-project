@@ -14,8 +14,8 @@ class AdminAccessMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): ?string
+    public function handle(Request $request, Closure $next): Response|string
     {
-        return Auth::user()->hasRole("Admin") ? $next($request) : route('login');
+        return Auth::user() && Auth::user()->hasRole("Admin") ? $next($request) : redirect(route('login'));
     }
 }

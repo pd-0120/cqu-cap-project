@@ -14,8 +14,8 @@ class CareTakerAccessMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): ?string
+    public function handle(Request $request, Closure $next): Response|string
     {
-        return Auth::user()->hasRole("CareTaker") ? $next($request) : route('login');
+        return Auth::user() && Auth::user()->hasRole("CareTaker") ? $next($request) : redirect(route('login'));
     }
 }
