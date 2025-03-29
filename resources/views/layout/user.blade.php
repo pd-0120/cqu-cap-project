@@ -48,7 +48,7 @@
         <!--begin::Nav-->
         <div class="navi navi-spacer-x-0 p-0">
             <!--begin::Item-->
-            <a href="custom/apps/user/profile-1/personal-information.html" class="navi-item">
+            {{-- <a href="custom/apps/user/profile-1/personal-information.html" class="navi-item">
                 <div class="navi-link">
                     <div class="symbol symbol-40 bg-light mr-3">
                         <div class="symbol-label">
@@ -71,10 +71,10 @@
                         <span class="label label-light-danger label-inline font-weight-bold">update</span></div>
                     </div>
                 </div>
-            </a>
+            </a> --}}
             <!--end:Item-->
             <!--begin::Item-->
-            <a href="custom/apps/user/profile-3.html" class="navi-item">
+            {{-- <a href="custom/apps/user/profile-3.html" class="navi-item">
                 <div class="navi-link">
                     <div class="symbol symbol-40 bg-light mr-3">
                         <div class="symbol-label">
@@ -96,10 +96,10 @@
                         <div class="text-muted">Todo and tasks</div>
                     </div>
                 </div>
-            </a>
+            </a> --}}
             <!--end:Item-->
             <!--begin::Item-->
-            <a href="custom/apps/user/profile-2.html" class="navi-item">
+            {{-- <a href="custom/apps/user/profile-2.html" class="navi-item">
                 <div class="navi-link">
                     <div class="symbol symbol-40 bg-light mr-3">
                         <div class="symbol-label">
@@ -121,10 +121,10 @@
                         <div class="text-muted">Logs and notifications</div>
                     </div>
                 </div>
-            </a>
+            </a> --}}
             <!--end:Item-->
             <!--begin::Item-->
-            <a href="custom/apps/userprofile-1/overview.html" class="navi-item">
+            {{-- <a href="custom/apps/userprofile-1/overview.html" class="navi-item">
                 <div class="navi-link">
                     <div class="symbol symbol-40 bg-light mr-3">
                         <div class="symbol-label">
@@ -146,7 +146,7 @@
                         <div class="text-muted">latest tasks and projects</div>
                     </div>
                 </div>
-            </a>
+            </a> --}}
             <!--end:Item-->
             <!--begin::Item-->
             <span class="navi-item mt-2">

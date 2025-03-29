@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePatientRequest;
+use App\Http\Requests\UpdatePatientDetailsRequest;
+use App\Mail\SendPasswordToPatientEmail;
 use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Nette\Utils\Random;
 use Yajra\DataTables\Facades\DataTables;
@@ -19,10 +22,13 @@ class PatientController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()) {
+        if ($request->ajax()) {
             $model = User::query()->with('userDetail');
-    
-            return DataTables::eloquent($model)->make(true);
+            $model = $model->where('caretaker_id', Auth::user()->id);
+
+            return DataTables::eloquent($model)->addColumn('actions', function ($data) {
+                return view('caretaker.patient.action', compact('data'))->render();
+            })->rawColumns(['actions'])->make(true);
         }
 
         return view('caretaker.patient.index');
@@ -54,7 +60,8 @@ class PatientController extends Controller
 
         $user->assignRole('Patient');
         UserDetail::create([
-            'user_id'=> $user->id,
+            'user_id' => $user->id,
+            'phone' => $request->phone,
             'emergency_contact' => $request->emergency_contact,
             'emergency_phone' => $request->emergency_phone,
             'medical_history' => $request->medical_history,
@@ -63,10 +70,12 @@ class PatientController extends Controller
             'state' => $request->state,
         ]);
 
-        Session::flash('message.level','success');
-        Session::flash('message.content','Patient added successfully.');
-        
-        return redirect()->route('caretaker.patient.index');        
+        Mail::to($user->email)->send(new SendPasswordToPatientEmail($user, $password));
+
+        Session::flash('message.level', 'success');
+        Session::flash('message.content', 'Patient added successfully.');
+
+        return redirect()->route('caretaker.patient.index');
     }
 
     /**
@@ -80,29 +89,59 @@ class PatientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(User $patient)
     {
-        //
+        $userDetail = $patient->userDetail;
+
+        if ($patient->caretaker_id == Auth::user()->id) {
+            return view('caretaker.patient.edit', compact('patient', 'userDetail'));
+        } else {
+            Session::flash('message.level', 'warning');
+            Session::flash('message.content', 'You do not have permission to edit this user.');
+
+            return redirect()->route('caretaker.patient.index');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdatePatientDetailsRequest $request, User $patient)
     {
-        //
+        $user = User::whereId($patient->id)->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+        ]);
+
+        UserDetail::whereUserId($patient->id)->update([
+            'phone' => $request->phone,
+            'emergency_contact' => $request->emergency_contact,
+            'emergency_phone' => $request->emergency_phone,
+            'gender' => $request->gender,
+            'status' => $request->status,
+            'medical_history' => $request->medical_history,
+            'street' => $request->street,
+            'suburb' => $request->suburb,
+            'state' => $request->state,
+        ]);
+
+        Session::flash('message.level', 'success');
+        Session::flash('message.content', 'Patient updated successfully.');
+
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $patient)
     {
-        $user->delete();
+        $patient->delete();
 
-        Session::flash('message.level','success');
-        Session::flash('message.content','Patient deleted successfully.');
-        
-        return redirect()->route('caretaker.patient.index');  
+        Session::flash('message.level', 'success');
+        Session::flash('message.content', 'Patient deleted successfully.');
+
+        return redirect()->route('caretaker.patient.index');
     }
 }

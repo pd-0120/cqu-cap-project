@@ -3,8 +3,8 @@
     <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
         <!--begin::Copyright-->
         <div class="text-dark order-2 order-md-1">
-            <span class="text-muted font-weight-bold mr-2">2020©</span>
-            <a href="{{ route('login') }}" target="_blank" class="text-dark-75 text-hover-primary">Keenthemes</a>
+            <span class="text-muted font-weight-bold mr-2">© {{ date('Y') }} </span>
+            <a href="{{ route('login') }}" target="_blank" class="text-dark-75 text-hover-primary">{{ config('app.name') }}</a>
         </div>
         <!--end::Copyright-->
         <!--begin::Nav-->

@@ -24,6 +24,7 @@
                                         <th scope="col">Email</th>
                                         <th scope="col">Phone</th>
                                         <th scope="col">Care Home Address</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -51,10 +52,11 @@
                         { data: 'id' },
                         { data: 'first_name' },
                         { data: 'last_name' },
-                        { data: 'user_detail.status' },
+                        { data: 'user_detail.status' , "orderable": false, "searchable" :  false},
                         { data: 'email' },
-                        { data: 'user_detail.phone' },
-                        { data: 'user_detail.street' },
+                        { data: 'user_detail.phone', "orderable": false, "searchable" :  false},
+                        { data: 'user_detail.street', "orderable": false,  "searchable" :  false},
+                        { data: 'actions', "orderable": false,  "searchable" :  false},
                     ],
                 });
             });

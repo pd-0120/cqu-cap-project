@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements  MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -25,6 +25,7 @@ class User extends Authenticatable implements  MustVerifyEmail
         'email',
         'caretaker_id',
         'password',
+        'email_verified_at'
     ];
 
     /**
@@ -47,19 +48,23 @@ class User extends Authenticatable implements  MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    public function getFullNameAttribute() {
-        return $this->first_name. " ". $this->last_name;
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . " " . $this->last_name;
     }
 
-    public function getRoleAttribute() {
+    public function getRoleAttribute()
+    {
         return $this->roles ? $this->roles[0]->name : "";
     }
 
-    public function userDetail() {
+    public function userDetail()
+    {
         return $this->hasOne(UserDetail::class);
     }
 
-    public function delete() {
+    public function delete()
+    {
         $this->userDetail()->delete();
         return parent::delete();
     }
