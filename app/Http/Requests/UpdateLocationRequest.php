@@ -11,7 +11,7 @@ class UpdateLocationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:30',
+            'street' => 'required|max:30',
+            "phone" => ['required', 'regex:/^(?:\+61|0)[2-478](?:[ -]?[0-9]){8}$/'],
+            'suburb' => 'required|max:30',
+            'state' => 'required|max:30',
+            'pincode' => 'required|max:30',
         ];
     }
 }

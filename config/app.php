@@ -144,6 +144,16 @@ return [
         // 'store' => 'redis',
     ],
 
+    'states' => [
+        'NSW',
+        'VIC',
+        'QLD',
+        'SA',
+        'WA',
+        'TAS',
+        'NT',
+        'ACT',
+    ],
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('street', 45);
             $table->string('suburb', 45);
             $table->string('state', 25);
+            $table->string('phone', 12)->nullable();
             $table->integer('pincode');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign( 'created_by')->references('id')->on('users')->nullOnUpdate()->nullOnDelete();
