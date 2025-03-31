@@ -46,7 +46,19 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-4 col-sm-12 form-group">
+                                <label for="location_id">Care House Location:</label>
+                                <select class="form-control" id="location_id" name="location_id">
+                                    @forelse ($locations as $location)
+                                        <option value="{{ $location->id }}" @selected(old('location_id') == $location->id)>{{ $location->name }}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
+
+                                <x-form-error-component :label='"location_id"' />
+                            </div>
+
+                            <div class="col-md-4 col-sm-12 form-group">
                                 <label for="emergency_contact">Emergency Contact Name:</label>
                                 <input type="text" class="form-control" id="emergency_contact" name="emergency_contact"
                                     placeholder="Enter Contact Name" value="{{ old('emergency_contact') }}">
@@ -54,7 +66,7 @@
 
                             </div>
 
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-4 col-sm-12 form-group">
                                 <label for="emergency_phone">Emergency Contact Phone:</label>
                                 <input type="tel" class="form-control" id="emergency_phone" name="emergency_phone"
                                     value="{{ old('emergency_phone') }}" placeholder="Enter Phone Number">

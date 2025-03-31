@@ -20,6 +20,11 @@ class UserDetail extends Model
         'medical_history',
         'cognitive_score',
         'last_exercise_date',
-        'status'
+        'status',
+        'location_id'
     ];
+
+    public function Location() {
+        return $this->belongsTo(Location::class);
+    }
 }

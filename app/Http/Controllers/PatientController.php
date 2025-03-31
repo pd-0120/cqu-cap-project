@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePatientRequest;
 use App\Http\Requests\UpdatePatientDetailsRequest;
 use App\Mail\SendPasswordToPatientEmail;
+use App\Models\Location;
 use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
@@ -39,7 +40,8 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('caretaker.patient.create');
+        $locations = Location::all();
+        return view('caretaker.patient.create', compact('locations'));
     }
 
     /**
@@ -68,6 +70,7 @@ class PatientController extends Controller
             'street' => $request->street,
             'suburb' => $request->suburb,
             'state' => $request->state,
+            'location_id' => $request->location_id,
         ]);
 
         Mail::to($user->email)->send(new SendPasswordToPatientEmail($user, $password));
@@ -92,9 +95,10 @@ class PatientController extends Controller
     public function edit(User $patient)
     {
         $userDetail = $patient->userDetail;
+        $locations = Location::all();
 
         if ($patient->caretaker_id == Auth::user()->id) {
-            return view('caretaker.patient.edit', compact('patient', 'userDetail'));
+            return view('caretaker.patient.edit', compact('patient', 'userDetail', 'locations'));
         } else {
             Session::flash('message.level', 'warning');
             Session::flash('message.content', 'You do not have permission to edit this user.');
@@ -124,6 +128,7 @@ class PatientController extends Controller
             'street' => $request->street,
             'suburb' => $request->suburb,
             'state' => $request->state,
+            'location_id' => $request->location_id,
         ]);
 
         Session::flash('message.level', 'success');

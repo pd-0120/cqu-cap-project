@@ -37,7 +37,8 @@
                                 <label for="phone">
                                     Phone Number:
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter Phone" name="phone" value="{{ $userDetail->phone }}" />
+                                <input type="text" class="form-control" placeholder="Enter Phone" name="phone"
+                                    value="{{ $userDetail->phone }}" />
                                 <x-form-error-component :label='"phone"' />
                             </div>
                             <div class="col-md-6 form-group">
@@ -50,7 +51,20 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-4 col-sm-12 form-group">
+                                <label for="location_id">Care House Location:</label>
+                                <select class="form-control" id="location_id" name="location_id">
+                                    @forelse ($locations as $location)
+                                        <option value="{{ $location->id }}" @selected($userDetail->location_id == $location->id)>
+                                            {{ $location->name }}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
+
+                                <x-form-error-component :label='"location_id"' />
+                            </div>
+
+                            <div class="col-md-4 col-sm-12 form-group">
                                 <label for="emergency_contact">Emergency Contact Name:</label>
                                 <input type="text" class="form-control" id="emergency_contact" name="emergency_contact"
                                     placeholder="Enter Contact Name" value="{{ $userDetail->emergency_contact }}">
@@ -58,7 +72,7 @@
 
                             </div>
 
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-4 col-sm-12 form-group">
                                 <label for="emergency_phone">Emergency Contact Phone:</label>
                                 <input type="tel" class="form-control" id="emergency_phone" name="emergency_phone"
                                     value="{{  $userDetail->emergency_phone }}" placeholder="Enter Phone Number">
@@ -86,8 +100,10 @@
                                 <label for="status">Status:</label>
                                 <select class="form-control" id="status" name="status">
                                     <option value="Active" @selected($userDetail->status == "Active")>Active</option>
-                                    <option value="Inactive" @selected($userDetail->status == "Inactive")>Inactive</option>
-                                    <option value="Deceased" @selected($userDetail->status == "Deceased")>Deceased</option>
+                                    <option value="Inactive" @selected($userDetail->status == "Inactive")>Inactive
+                                    </option>
+                                    <option value="Deceased" @selected($userDetail->status == "Deceased")>Deceased
+                                    </option>
                                 </select>
                                 <x-form-error-component :label='"status"' />
 
@@ -98,7 +114,8 @@
                                 <label for="">
                                     Street:
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter Street" name="street" value="{{ $userDetail->street }}" />
+                                <input type="text" class="form-control" placeholder="Enter Street" name="street"
+                                    value="{{ $userDetail->street }}" />
                                 <x-form-error-component :label='"street"' />
 
                             </div>
@@ -106,14 +123,16 @@
                                 <label for="">
                                     Suburb:
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter Suburb" name="suburb" value="{{ $userDetail->suburb }}" />
+                                <input type="text" class="form-control" placeholder="Enter Suburb" name="suburb"
+                                    value="{{ $userDetail->suburb }}" />
                                 <x-form-error-component :label='"suburb"' />
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for="">
                                     State:
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter State" name="state" value="{{ $userDetail->state }}" />
+                                <input type="text" class="form-control" placeholder="Enter State" name="state"
+                                    value="{{ $userDetail->state }}" />
                                 <x-form-error-component :label='"state"' />
                             </div>
                         </div>
