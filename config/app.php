@@ -144,6 +144,18 @@ return [
         // 'store' => 'redis',
     ],
 
+    /**
+     * ------------------------------------------------------------------------
+     * Cognifit API Keys
+     * ------------------------------------------------------------------------
+     */
+    'cognifit'=> [
+        'client' => env('COGNI_FIT_CLIENT_ID'),         
+        'secret' =>env('COGNI_FIT_CLIENT_SECRET')
+    ],
+    /**
+     * Australian states
+     */
     'states' => [
         'NSW',
         'VIC',

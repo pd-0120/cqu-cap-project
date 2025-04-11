@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 
 class UserDetail extends Model
 {
     use HasFactory;
+    use LogsActivity;
+
     protected $fillable = [
         'user_id' ,
         'street',
@@ -23,6 +28,11 @@ class UserDetail extends Model
         'status',
         'location_id'
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     public function Location() {
         return $this->belongsTo(Location::class);

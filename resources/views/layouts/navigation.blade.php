@@ -7,7 +7,12 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <div class="flex justify-center items-center">
+                            <img 
+                              src="{{ asset('assets/media/logos/logo.png') }}" 
+                              class="w-32 sm:w-40 md:w-48 lg:w-56 xl:w-64 max-w-full h-auto rounded"
+                            />
+                          </div>
                     </a>
                 </div>
 

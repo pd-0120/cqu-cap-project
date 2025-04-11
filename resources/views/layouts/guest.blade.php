@@ -19,8 +19,14 @@
 <body class="font-sans text-gray-900 antialiased">
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
         <div>
+            
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <div class="flex justify-center items-center">
+                    <img 
+                      src="{{ asset('assets/media/logos/logo.png') }}" 
+                      class="w-32 sm:w-40 md:w-48 lg:w-56 xl:w-64 max-w-full h-auto rounded"
+                    />
+                  </div>
             </a>
         </div>
 
