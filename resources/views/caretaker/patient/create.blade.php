@@ -12,7 +12,7 @@
                     @csrf
                     <div class="card-body pt-7">
                         <div class="row">
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-4 form-group">
                                 <label for="first_name">
                                     First Name:
                                 </label>
@@ -20,13 +20,21 @@
                                     value="{{ old('first_name') }}" />
                                 <x-form-error-component :label='"first_name"' />
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-4 form-group">
                                 <label for="last_name">
                                     Last Name:
                                 </label>
                                 <input type="text" class="form-control" placeholder="Enter last name" name="last_name"
                                     value="{{ old('last_name') }}" />
                                 <x-form-error-component :label='"last_name"' />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="dob">
+                                    Date of Birth:
+                                </label>
+                                <input type="text" class="form-control" id="p_dob" placeholder="Select date of birth"
+                                    name="dob" readonly value="{{ old('dob') }}" />
+                                <x-form-error-component :label='"dob"' />
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="phone">
@@ -50,7 +58,9 @@
                                 <label for="location_id">Care House Location:</label>
                                 <select class="form-control" id="location_id" name="location_id">
                                     @forelse ($locations as $location)
-                                        <option value="{{ $location->id }}" @selected(old('location_id') == $location->id)>{{ $location->name }}</option>
+                                        <option value="{{ $location->id }}" @selected(old('location_id') == $location->id)>
+                                            {{ $location->name }}
+                                        </option>
                                     @empty
                                     @endforelse
                                 </select>
@@ -139,5 +149,16 @@
         </div>
     </div>
     @push('UserJS')
+        <script>
+            $(document).ready(function () {
+                {
+                    $('#p_dob').datepicker({
+                        rtl: false,
+                        todayHighlight: true,
+                        orientation: "bottom left",
+                    });
+                }
+            })
+        </script>
     @endpush
 </x-auth-layout>

@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cognitive_skills_lists', function (Blueprint $table) {
+        Schema::create('congnifit_assessment_list_skills', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->nullable();
-            $table->string('title')->nullable();
-            $table->text('description')->nullable();
-            $table->string('image')->nullable();
-            $table->json('response_data')->nullable();
+            $table->string('name');
+            $table->unsignedBigInteger('assessment_list_id')->nullable();
+            $table->foreign( 'assessment_list_id')->references('id')->on('cognifit_cognitive_assessment_lists')->nullOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cognitive_skills_lists');
+        Schema::dropIfExists('congnifit_assessment_list_skills');
     }
 };

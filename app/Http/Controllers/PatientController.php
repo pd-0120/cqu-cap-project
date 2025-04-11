@@ -8,8 +8,10 @@ use App\Mail\SendPasswordToPatientEmail;
 use App\Models\Location;
 use App\Models\User;
 use App\Models\UserDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -49,16 +51,21 @@ class PatientController extends Controller
      */
     public function store(CreatePatientRequest $request)
     {
-        $password = Random::generate(8);
-
+        $password = str()->password(8);
+        $encryptedPassword = Crypt::encryptString($password);
+        
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+            'dob' => Carbon::parse($request->dob),
             'email' => $request->email,
             'email_verified_at' => now(),
             'password' => Hash::make($password),
             'caretaker_id' => Auth::user()->id,
+            'secret_password' => $encryptedPassword
         ]);
+
+        $congnifit = new CongnitiveFitController();
 
         $user->assignRole('Patient');
         UserDetail::create([

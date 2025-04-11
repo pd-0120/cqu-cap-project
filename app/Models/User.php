@@ -27,7 +27,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'caretaker_id',
         'password',
-        'email_verified_at'
+        'email_verified_at',
+        'dob'
     ];
 
     /**
@@ -37,6 +38,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $hidden = [
         'password',
+        'cognifit_user_token',
+        'secret_password',
         'remember_token',
     ];
 

@@ -13,7 +13,7 @@
         <!--begin::Header-->
         <div class="d-flex align-items-center mt-5">
             <div class="symbol symbol-100 mr-5">
-                <div class="symbol-label" style="background-image:url('{{ asset("assets/media/svg/avatars/004-boy-1.svg") }}')"></div>
+                <div class="symbol-label" style="background-image:url('{{ asset("assets/media/svg/avatars/001-boy.svg") }}')"></div>
                 <i class="symbol-badge bg-success"></i>
             </div>
             <div class="d-flex flex-column">

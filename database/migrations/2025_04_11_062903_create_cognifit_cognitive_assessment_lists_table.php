@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cognitive_skills_lists', function (Blueprint $table) {
+        Schema::create('cognifit_cognitive_assessment_lists', function (Blueprint $table) {
             $table->id();
             $table->string('key')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->string('image')->nullable();
+            $table->integer('estimated_time')->nullable();
             $table->json('response_data')->nullable();
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cognitive_skills_lists');
+        Schema::dropIfExists('cognifit_cognitive_assessment_lists');
     }
 };

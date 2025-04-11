@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->text('cognifit_user_token')->nullable();
+            $table->text('secret_password')->nullable();
+            $table->date('dob')->nullable();
         });
     }
 
@@ -22,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('cognifit_user_token');
+            $table->dropColumn(['cognifit_user_token', 'secret_password', 'dob']);
         });
     }
 };

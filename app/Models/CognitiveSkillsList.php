@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class CognitiveSkillsList extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'key',
+        'title',
+        'description',
+        'image',
+        'response_data',
+    ];
+
+    public function skills() {
+        return $this->hasMany(CongnifitAssessmentListSkills::class, 'assessment_list_id', 'id');
+    }
+
+    public function tasks() {
+        return $this->hasMany(CognifitAssessmentListTasks::class, 'assessment_list_id', 'id');
+    }
 }

@@ -31,7 +31,7 @@
 			<!--begin::User-->
 			<div class="topbar-item ml-4">
 				<div class="btn btn-icon btn-light-primary h-40px w-40px p-0" id="kt_quick_user_toggle">
-					<img src="{{ asset("assets/media/svg/avatars/004-boy-1.svg") }}" class="h-30px align-self-end" alt="" />
+					<img src="{{ asset("assets/media/svg/avatars/001-boy.svg") }}" class="h-30px align-self-end" alt="" />
 				</div>
 			</div>
 			<!--end::User-->
