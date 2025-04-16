@@ -6,6 +6,8 @@ use App\Models\User;
 use CognifitSdk\Api\HealthCheck;
 use CognifitSdk\Api\Client;
 use Illuminate\Http\Request;
+use CognifitSdk\Api\UserAccessToken;
+use CognifitSdk\Api\UserActivity;
 
 class CongnitiveFitController extends Controller
 {
@@ -25,7 +27,24 @@ class CongnitiveFitController extends Controller
             $this->clientSecret,
         );
         $response = $cognifitApiHealthCheck->getInfo();
-        
+
         // dd($response);
+    }
+
+    public function getUserAccessToken()
+    {
+
+        $cognifitUserToken          = 'FgJTTZ8zFWyZ9mtZNg4jMnptx1MHHEZT0K2Nruwj+6F+TeJhFLQoj5jNmFNZ8yOELCUNkwI1WKqKMhFj3mmEPA==';
+        $cognifitApiUserAccessToken = new UserActivity(
+            env('COGNI_FIT_CLIENT_ID'),
+            env('COGNI_FIT_CLIENT_SECRET')
+        );
+        $response = $cognifitApiUserAccessToken->getHistoricalScoreAndSkills($cognifitUserToken);
+        dd($response);
+
+        // $response = $cognifitApiUserAccessToken->issue($cognifitUserToken);
+        // if (!$response->hasError()) {
+        //     return $response->get('access_token');
+        // }
     }
 }

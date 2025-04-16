@@ -16,5 +16,6 @@ class CognifitCognitiveAssessmentList extends Model
         'image',
         'estimated_time',
         'response_data',
+        'type',
     ];
 }

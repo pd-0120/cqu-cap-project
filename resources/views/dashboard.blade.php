@@ -106,8 +106,29 @@
             </div>
         </div>
 
+        <div class="col-md-12" id="cogniFitContent">
+            {{--
+            <counter /> --}}
+        </div>
     </div>
 
     @push('UserJS')
+        <script>
+            HTML5JS.loadMode("2025-04-10_1419_snaga", "assessmentMode", "THE_NUMBERS_TASK_ASSESSMENT", "cogniFitContent",
+                {
+                    "clientId": "12312d014a761b6b2d871ed2ca6ecc0a",
+                    "accessToken": "XyS8LitwpNfnpqHTWdntNAPmO4b23kCBOHXBCFhJ",
+                    "appType": "web"
+                }
+            );
+
+            window.addEventListener('message', receiveMessage, false);
+
+            function receiveMessage(event) {
+                if (event.origin  == "https://js.cognifit.com") {
+                    console.log("🚀 ~ :128 ~ receiveMessage ~ event:", event)
+                }
+            }
+        </script>
     @endpush
 </x-auth-layout>

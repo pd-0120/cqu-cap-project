@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->integer('estimated_time')->nullable();
+            $table->string('type')->nullable();
             $table->json('response_data')->nullable();
             $table->timestamps();
         });
