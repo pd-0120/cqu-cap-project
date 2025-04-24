@@ -8,6 +8,7 @@ use CognifitSdk\Api\Client;
 use Illuminate\Http\Request;
 use CognifitSdk\Api\UserAccessToken;
 use CognifitSdk\Api\UserActivity;
+use Illuminate\Support\Facades\Http;
 
 class CongnitiveFitController extends Controller
 {
@@ -41,5 +42,10 @@ class CongnitiveFitController extends Controller
         );
         $response = $cognifitApiUserAccessToken->issue($cognifitUserToken);
         return $response;
+    }
+
+    public function getCognifitJSversion() {
+        $response = Http::get('https://api.cognifit.com/description/versions/sdkjs?v=2.0');
+        return $response->json('version');
     }
 }

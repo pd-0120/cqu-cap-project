@@ -27,7 +27,6 @@
 	<link href='{{ asset("assets/css/themes/layout/brand/dark.css") }}' rel="stylesheet" type="text/css" />
 	<link href='{{ asset("assets/css/themes/layout/aside/dark.css") }}' rel="stylesheet" type="text/css" />
 	<link href='{{ asset("assets/plugins/custom/datatables/datatables.bundle.css") }}' rel="stylesheet" type="text/css" />
-	<script src="https://js.cognifit.com/2025-04-10_1419_snaga/html5Loader.js"></script>
 
 	@livewireStyles
 	<!--end::Layout Themes-->

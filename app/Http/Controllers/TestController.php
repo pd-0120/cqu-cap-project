@@ -19,17 +19,17 @@ class TestController extends Controller
     {
         if ($request->ajax()) {
             $model = Test::query()->with('assessment');
-            
+
             $model = $model->where('created_by', Auth::user()->id);
 
             return DataTables::eloquent($model)
-            ->addColumn('actions', function ($data) {
-                return view('caretaker.test.action', compact('data'))->render();
-            })
-            ->editColumn('assessment_list_id', function($data) {
-                return $data->assessment->title;
-            })
-            ->rawColumns(['actions'])->make(true);
+                ->addColumn('actions', function ($data) {
+                    return view('caretaker.test.action', compact('data'))->render();
+                })
+                ->editColumn('assessment_list_id', function ($data) {
+                    return $data->assessment->title;
+                })
+                ->rawColumns(['actions'])->make(true);
         }
 
         return view('caretaker.test.index');
@@ -47,7 +47,7 @@ class TestController extends Controller
      */
     public function edit(Test $test)
     {
-        if($test->created_by !== auth()->user()->id) {
+        if ($test->created_by !== auth()->user()->id) {
             Session::flash('message.level', 'warning');
             Session::flash('message.content', 'You do not have permission to edit this test.');
 
@@ -69,8 +69,11 @@ class TestController extends Controller
         return redirect()->back();
     }
 
-    public function takeTest() {
+    public function takeTest()
+    {
         $congnitiveFitController = new CongnitiveFitController();
+        $jsVersion = $congnitiveFitController->getCognifitJSversion();
+
         $userAccessToken = $congnitiveFitController->getUserAccessToken();
         $userAccessToken = $userAccessToken->getData()['access_token'];
         $test = Test::find(3);
@@ -79,6 +82,6 @@ class TestController extends Controller
         $type = $test->test_type == "GAME" ? "gameMode" : ($test->test_type == "ASSESSMENT" ? "assessmentMode" : "trainingMode");
         $task = $test->assessment->key;
 
-        return view('patient.assessment.play', compact('userAccessToken', 'test', 'type', 'task', 'clientId'));
+        return view('patient.assessment.play', compact('userAccessToken', 'test', 'type', 'task', 'clientId', 'jsVersion'));
     }
 }
