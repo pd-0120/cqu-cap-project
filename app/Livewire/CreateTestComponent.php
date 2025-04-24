@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 
 class CreateTestComponent extends Component
 {
-    public Test $test;
+    public Test|null $test = null;
     public $name = "";
     public $description = "";
     public $test_type = "";
@@ -21,9 +21,9 @@ class CreateTestComponent extends Component
 
     public function mount()
     {
-        $this->loadTest();
         $this->assessmentList = $this->getAssessmentList();
         $this->assessments = $this->assessmentList;
+        $this->loadTest();
     }
 
     protected function validationAttributes()
@@ -59,24 +59,21 @@ class CreateTestComponent extends Component
             Session::flash('message.level', 'success');
             Session::flash('message.content', 'Test created successfully.');
         } else {
-            if(!$this->test) {
-                $this->test->update([
-                    'name' => $this->name,
-                    'description' => $this->description,
-                    'test_type' => $this->test_type,
-                    'assessment_list_id' => $this->assessment_list_id,
-                ]);
-        
-                Session::flash('message.level', 'success');
-                Session::flash('message.content', 'Test updated successfully.');
-            }
+            $this->test->update([
+                'name' => $this->name,
+                'description' => $this->description,
+                'test_type' => $this->test_type,
+                'assessment_list_id' => $this->assessment_list_id,
+            ]);
+    
+            Session::flash('message.level', 'success');
+            Session::flash('message.content', 'Test updated successfully.');
         }
 
         return redirect()->route('caretaker.tests.index');
     }
 
 
-    public function onTypeChange() {}
     #[Computed]
     public function getAssessmentList()
     {
@@ -89,6 +86,7 @@ class CreateTestComponent extends Component
             $this->description = $this->test->description;
             $this->test_type = $this->test->test_type;
             $this->assessment_list_id = $this->test->assessment_list_id;
+            $this->updatedTestType($this->test_type);
         }
     }
     public function updatedTestType($value)

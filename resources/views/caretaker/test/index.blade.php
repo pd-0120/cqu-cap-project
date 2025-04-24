@@ -18,12 +18,10 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Phone</th>
-                                        <th scope="col">Care Home Address</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Assessment</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -45,17 +43,15 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('caretaker.patient.index') }}",
+                        url: "{{ route('caretaker.tests.index') }}",
                         type: 'GET',
                     },
                     columns: [
                         { data: 'id' },
-                        { data: 'first_name' },
-                        { data: 'last_name' },
-                        { data: 'user_detail.status' , "orderable": false, "searchable" :  false},
-                        { data: 'email' },
-                        { data: 'user_detail.phone', "orderable": false, "searchable" :  false},
-                        { data: 'user_detail.street', "orderable": false,  "searchable" :  false},
+                        { data: 'name' },
+                        { data: 'description' },
+                        { data: 'test_type' },
+                        { data: 'assessment_list_id'},
                         { data: 'actions', "orderable": false,  "searchable" :  false},
                     ],
                 });

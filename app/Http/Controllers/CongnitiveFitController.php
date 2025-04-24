@@ -35,16 +35,11 @@ class CongnitiveFitController extends Controller
     {
 
         $cognifitUserToken          = 'FgJTTZ8zFWyZ9mtZNg4jMnptx1MHHEZT0K2Nruwj+6F+TeJhFLQoj5jNmFNZ8yOELCUNkwI1WKqKMhFj3mmEPA==';
-        $cognifitApiUserAccessToken = new UserActivity(
+        $cognifitApiUserAccessToken = new UserAccessToken(
             env('COGNI_FIT_CLIENT_ID'),
             env('COGNI_FIT_CLIENT_SECRET')
         );
-        $response = $cognifitApiUserAccessToken->getHistoricalScoreAndSkills($cognifitUserToken);
-        dd($response);
-
-        // $response = $cognifitApiUserAccessToken->issue($cognifitUserToken);
-        // if (!$response->hasError()) {
-        //     return $response->get('access_token');
-        // }
+        $response = $cognifitApiUserAccessToken->issue($cognifitUserToken);
+        return $response;
     }
 }

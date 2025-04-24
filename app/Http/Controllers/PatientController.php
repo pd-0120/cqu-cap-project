@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use Nette\Utils\Random;
 use Yajra\DataTables\Facades\DataTables;
 
 class PatientController extends Controller

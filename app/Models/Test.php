@@ -29,4 +29,18 @@ class Test extends Model
     public function assesmentTask() {
         return $this->belongsTo(CognifitCognitiveAssessmentList::class, 'created_by', 'id');
     }
+
+    public function assessment () {
+        return $this->belongsTo(CognifitCognitiveAssessmentList::class, 'assessment_list_id', 'id');
+    }
+
+    public function patientsTest () {
+        return $this->belongsToMany(Test::class, PatientTest::class, 'test_id', 'id');
+    }
+
+    public function delete()
+    {
+        $this->patientsTest()->delete();
+        return parent::delete();
+    }
 }
