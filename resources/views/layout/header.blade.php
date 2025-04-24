@@ -19,6 +19,12 @@
 							<i class="menu-arrow"></i>
 						</a>
 					</li>
+					<li class="menu-item  ">
+						<a href="{{ route('caretaker.tests.index') }}" class="menu-link">
+							<span class="menu-text">Tests</span>
+							<i class="menu-arrow"></i>
+						</a>
+					</li>
 				</ul>
 				<!--end::Header Nav-->
 			</div>

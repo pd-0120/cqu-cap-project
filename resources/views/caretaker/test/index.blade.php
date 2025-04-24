@@ -1,7 +1,7 @@
-@section('pageTitle', "Add New Patient")
+@section('pageTitle', "All Tests")
 @section('pageActionData')
-    <a href="{{ route('caretaker.patient.create') }}"
-        class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Add Patient</a>
+    <a href="{{ route('caretaker.tests.create') }}"
+        class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Add New Test</a>
 
 @endsection
 <x-auth-layout>

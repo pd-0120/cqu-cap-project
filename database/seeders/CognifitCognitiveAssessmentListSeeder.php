@@ -97,7 +97,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
                 $cognifitCognitiveAssessment->image = $image;
                 $cognifitCognitiveAssessment->estimated_time = $estimamtedTime;
                 $cognifitCognitiveAssessment->key = $key;
-                $cognifitCognitiveAssessment->type = "ASSESSMENT_TASKS";
+                $cognifitCognitiveAssessment->type = "ASSESSMENT";
                 $cognifitCognitiveAssessment->save();
 
                 if (count($tasks) > 0) {
@@ -138,7 +138,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
             $cognifitCognitiveAssessment->image = $image;
             $cognifitCognitiveAssessment->estimated_time = $estimamtedTime;
             $cognifitCognitiveAssessment->key = $key;
-            $cognifitCognitiveAssessment->type = "QUESTIONNAIRE";
+            $cognifitCognitiveAssessment->type = "ASSESSMENT";
             $cognifitCognitiveAssessment->save();
 
             if (count($tasks) > 0) {
