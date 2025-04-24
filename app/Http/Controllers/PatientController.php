@@ -64,8 +64,6 @@ class PatientController extends Controller
             'secret_password' => $encryptedPassword
         ]);
 
-        $congnifit = new CongnitiveFitController();
-
         $user->assignRole('Patient');
         UserDetail::create([
             'user_id' => $user->id,

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Http\Controllers\CongnitiveFitController;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,6 +30,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'caretaker_id',
         'password',
         'email_verified_at',
+        'cognifit_user_token',
+        'secret_password',
         'dob'
     ];
 
@@ -53,6 +57,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            $congnifit = new CongnitiveFitController();
+            $congnifit->addUser($user);
+        });
+    }
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
