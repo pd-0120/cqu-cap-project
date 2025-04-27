@@ -8,6 +8,13 @@
 				<!--begin::Header Nav-->
 				<ul class="menu-nav">
 					<li class="menu-item  ">
+						<a href="{{ route('dashboard') }}" class="menu-link">
+							<span class="menu-text">Dashboard</span>
+							<i class="menu-arrow"></i>
+						</a>
+					</li>
+
+					<li class="menu-item  ">
 						<a href="{{ route('caretaker.patient.index') }}" class="menu-link">
 							<span class="menu-text">Patients</span>
 							<i class="menu-arrow"></i>
