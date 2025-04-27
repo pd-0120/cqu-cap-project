@@ -19,11 +19,25 @@
 							<i class="menu-arrow"></i>
 						</a>
 					</li>
-					<li class="menu-item  ">
-						<a href="{{ route('caretaker.tests.index') }}" class="menu-link">
+					<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+						<a href="javascript:;" class="menu-link menu-toggle">
 							<span class="menu-text">Tests</span>
 							<i class="menu-arrow"></i>
 						</a>
+						<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+							<ul class="menu-subnav">
+								<li class="menu-item" aria-haspopup="true">
+									<a href=" {{ route('caretaker.tests.index') }}" class="menu-link">
+										<span class="menu-text">All tests</span>
+									</a>
+								</li>
+								<li class="menu-item" aria-haspopup="true">
+									<a href=" {{ route('caretaker.tests.assignTestIndex') }}" class="menu-link">
+										<span class="menu-text">Assigned Tests</span>
+									</a>
+								</li>
+							</ul>
+						</div>
 					</li>
 				</ul>
 				<!--end::Header Nav-->
@@ -33,11 +47,12 @@
 		<!--end::Header Menu Wrapper-->
 		<!--begin::Topbar-->
 		<div class="topbar">
-			
+
 			<!--begin::User-->
 			<div class="topbar-item ml-4">
 				<div class="btn btn-icon btn-light-primary h-40px w-40px p-0" id="kt_quick_user_toggle">
-					<img src="{{ asset("assets/media/svg/avatars/001-boy.svg") }}" class="h-30px align-self-end" alt="" />
+					<img src="{{ asset("assets/media/svg/avatars/001-boy.svg") }}" class="h-30px align-self-end"
+						alt="" />
 				</div>
 			</div>
 			<!--end::User-->

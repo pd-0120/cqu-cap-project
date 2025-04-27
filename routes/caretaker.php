@@ -9,4 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::resource("patient", PatientController::class);
 Route::resource("location", LocationController::class);
 Route::resource("tests", TestController::class);
+Route::get("tests/assign-test/index", [TestController::class, 'assignTestIndex'])->name('tests.assignTestIndex');
+Route::get("tests/assign-test/{patient}", [TestController::class, 'assignTest'])->name('tests.assignTest');
+Route::post("tests/assign-test/{patient}", [TestController::class, 'storeAssignTest'])->name('tests.storeAssignTest');
 Route::get('delete-cognifit-account',[ CongnitiveFitController::class, 'deleteAllCognifitAccounts']);

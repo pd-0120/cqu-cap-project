@@ -1,6 +1,9 @@
 <form action='{{ route('caretaker.patient.destroy', $data->id) }}' method='POST'>
     <input type="hidden" name="_method" value="DELETE">
 
+    <a href='{{ route("caretaker.tests.assignTest", $data->id) }}' class='btn m-2 btn-warning'>
+        <i class='flaticon-attachment'></i>
+    </a>
     <a href='{{ route("caretaker.patient.edit", $data->id) }}' class='btn m-2 btn-primary'>
         <i class='flaticon2-pen'></i>
     </a>

@@ -18,6 +18,7 @@ class Test extends Model
         'created_by',
     ];
 
+    protected $with = ['assessment'];
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();

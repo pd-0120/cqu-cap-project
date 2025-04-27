@@ -24,10 +24,9 @@ class CongnitiveFitController extends Controller
     {
         $userName               = $user->full_name;
         $userEmail              = $user->email;
-        $userBirth              = $user->dob;
+        $userBirth              = $user->dob->toDateString();
         $locale                 = 'en';
-        $userPassword           = Crypt::decrypt($user->secret_password);
-
+        
         $cognifitApiUserAccount = new UserAccount(
             $this->clientId,
             $this->clientSecret,
@@ -61,6 +60,7 @@ class CongnitiveFitController extends Controller
             $this->clientSecret,
         );
         $response = $cognifitApiUserAccessToken->issue($cognifitUserToken);
+        
         return $response;
     }
 

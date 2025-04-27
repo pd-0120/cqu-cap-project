@@ -13,8 +13,7 @@
     <div class="row">
 
         <div class="col-md-12" id="cogniFitContent">
-            {{--
-            <counter /> --}}
+            <counter :userToken='{{ $userAccessToken }}'/>
         </div>
     </div>
     @push('UserJS')

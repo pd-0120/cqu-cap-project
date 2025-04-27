@@ -2,16 +2,17 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTestRequest extends FormRequest
+class StorePatientTest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,15 @@ class UpdateTestRequest extends FormRequest
      */
     public function rules(): array
     {
+        $today = Carbon::today()->toDateString();
         return [
-            //
+            'test_id' => 'required',
+            'due_date' => 'required|after:' . $today,
         ];
+    }
+
+    public function attributes()
+    {
+       return ['test_id' => "Test"];
     }
 }
