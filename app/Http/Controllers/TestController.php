@@ -141,10 +141,19 @@ class TestController extends Controller
 					return Carbon::parse($data->due_date)->toDateString();
 				})
 				->addColumn('actions', function ($data) {
-					return view('caretaker.test.action', compact('data'))->render();
+					return view('caretaker.test.assigned-tests-action', compact('data'))->render();
 				})
 				->rawColumns(['actions'])->make(true);
 		}
 		return view('caretaker.test.assigned-tests-index');
+	}
+
+	public function deleteAssignTest(PatientTest $assignTest) {
+		$assignTest->delete();
+
+		Session::flash('message.level', 'success');
+		Session::flash('message.content', 'The assigned test has been removed successfully.');
+
+		return redirect()->back();
 	}
 }
