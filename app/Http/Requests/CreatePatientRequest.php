@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreatePatientRequest extends FormRequest
@@ -23,6 +24,7 @@ class CreatePatientRequest extends FormRequest
             "emergency_contact" => "Emergency Contact Name",
             "emergency_phone" => "Emergency Contact Phone",
             "medical_history" => "Medical History",
+            'dob' => "date of birth",
         ];
     }
 
@@ -33,6 +35,8 @@ class CreatePatientRequest extends FormRequest
      */
     public function rules(): array
     {
+        $minDob = Carbon::today()->subYears(10)->toDateString();
+
         return [
             "first_name" => ['required','max:25'],
             "last_name" => ['required','max:25'],
@@ -41,6 +45,7 @@ class CreatePatientRequest extends FormRequest
             "emergency_contact" => ['required','max:25'],
             "emergency_phone" => ['required', 'regex:/^(?:\+61|0)[2-478](?:[ -]?[0-9]){8}$/'],
             "medical_history" => ['sometimes', 'max:200'],
+            'dob' => 'required|before:'.$minDob
         ];
     }
 

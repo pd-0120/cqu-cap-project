@@ -7,10 +7,10 @@ import Counter from './components/Counter.vue'
 import { Axios } from 'axios';
 const app = createApp()
 
-window.Alpine = Alpine;
+// window.Alpine = Alpine;
 window.Axios = Axios;
 
-Alpine.start();
+// Alpine.start();
 
 app.component('counter', Counter)
 app.mount('#app')

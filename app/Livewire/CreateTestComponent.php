@@ -91,7 +91,6 @@ class CreateTestComponent extends Component
     }
     public function updatedTestType($value)
     {
-
         $this->assessments = collect($this->assessmentList)->filter(function ($assessment) use ($value) {
             return $assessment['type'] == $value;
         });

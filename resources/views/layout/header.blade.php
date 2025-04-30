@@ -13,8 +13,26 @@
 							<i class="menu-arrow"></i>
 						</a>
 					</li>
+					@hasrole('Patient')
+					<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+						<a href="javascript:;" class="menu-link menu-toggle">
+							<span class="menu-text">Tests</span>
+							<i class="menu-arrow"></i>
+						</a>
+						<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+							<ul class="menu-subnav">
+								<li class="menu-item" aria-haspopup="true">
+									<a href=" {{ route('patient.tests.index') }}" class="menu-link">
+										<span class="menu-text">All Assign Test</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					@endhasrole
 
-					<li class="menu-item  ">
+					@hasrole('CareTaker')
+					<li class="menu-item">
 						<a href="{{ route('caretaker.patient.index') }}" class="menu-link">
 							<span class="menu-text">Patients</span>
 							<i class="menu-arrow"></i>
@@ -46,6 +64,7 @@
 							</ul>
 						</div>
 					</li>
+					@endhasrole
 				</ul>
 				<!--end::Header Nav-->
 			</div>

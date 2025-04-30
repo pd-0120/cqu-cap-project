@@ -1,4 +1,4 @@
-@section('pageTitle', "Take A Test")
+@section('pageTitle', "Take A $task Test")
 @section('pageActionData')
 @endsection
 <style>
@@ -13,7 +13,7 @@
     <div class="row">
 
         <div class="col-md-12" id="cogniFitContent">
-            <counter :userToken='{{ $userAccessToken }}'/>
+            
         </div>
     </div>
     @push('UserJS')

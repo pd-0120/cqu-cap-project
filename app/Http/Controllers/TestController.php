@@ -71,22 +71,6 @@ class TestController extends Controller
 		return redirect()->back();
 	}
 
-	public function takeTest()
-	{
-		$congnitiveFitController = new CongnitiveFitController();
-		$jsVersion = $congnitiveFitController->getCognifitJSversion();
-		$user = User::find(16);
-
-		$userAccessToken = $congnitiveFitController->getUserAccessToken($user);
-		$userAccessToken = $userAccessToken->getData()['access_token'];
-		$test = Test::find(3);
-		$clientId = config("app.cognifit.client");
-
-		$type = $test->test_type == "GAME" ? "gameMode" : ($test->test_type == "ASSESSMENT" ? "assessmentMode" : "trainingMode");
-		$task = $test->assessment->key;
-
-		return view('patient.assessment.play', compact('userAccessToken', 'test', 'type', 'task', 'clientId', 'jsVersion'));
-	}
 
 	public function assignTest(User $patient)
 	{

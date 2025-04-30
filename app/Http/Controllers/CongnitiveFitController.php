@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use CognifitSdk\Api\HealthCheck;
 use CognifitSdk\Api\UserAccessToken;
 use CognifitSdk\Api\UserAccount;
 use Illuminate\Support\Facades\Http;
 use CognifitSdk\Lib\UserData;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+
 
 class CongnitiveFitController extends Controller
 {
@@ -26,7 +27,7 @@ class CongnitiveFitController extends Controller
         $userEmail              = $user->email;
         $userBirth              = $user->dob->toDateString();
         $locale                 = 'en';
-        
+
         $cognifitApiUserAccount = new UserAccount(
             $this->clientId,
             $this->clientSecret,
@@ -40,15 +41,22 @@ class CongnitiveFitController extends Controller
             'user_password' => "E80i0c2$"
         ]));
         
-        if(!$response->hasError()){
-            $cognifitUserToken = $response->get('user_token'); 
-            if($cognifitUserToken){
+        if (!$response->hasError()) {
+            $cognifitUserToken = $response->get('user_token');
+            if ($cognifitUserToken) {
                 $user->cognifit_user_token = $cognifitUserToken;;
-                $user->save(); 
+                $user->save();
+                
                 return true;
             }
-        }  
-        return true;    }
+        } else {
+            Log::warning($response->getError());
+            Session::flash('message.level', 'danger');
+            Session::flash('message.content', $response->getError());
+        }
+
+        return true;
+    }
 
     public function getUserAccessToken($user)
     {
@@ -60,7 +68,7 @@ class CongnitiveFitController extends Controller
             $this->clientSecret,
         );
         $response = $cognifitApiUserAccessToken->issue($cognifitUserToken);
-        
+
         return $response;
     }
 
@@ -79,6 +87,7 @@ class CongnitiveFitController extends Controller
             "total_points" => 50
         ]);
         $userAccounts = $response->json('userAccounts');
+        
         foreach ($userAccounts as $userAccount) {
             $userToken              = $userAccount['user_token'];
             $cognifitApiUserAccount = new UserAccount(

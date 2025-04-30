@@ -36,12 +36,12 @@ class Test extends Model
     }
 
     public function patientsTest () {
-        return $this->belongsToMany(Test::class, PatientTest::class, 'test_id', 'id');
+        return $this->hasMany( PatientTest::class, 'test_id', 'id');
     }
 
-    public function delete()
-    {
-        $this->patientsTest()->delete();
-        return parent::delete();
+    protected static function booted () {
+        static::deleting(function(Test $test) { 
+            ($test->patientsTest()->delete());
+        });
     }
 }

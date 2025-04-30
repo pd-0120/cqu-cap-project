@@ -1,10 +1,7 @@
 <?php
 
-use App\Http\Controllers\CaretakerDashboardController;
-use App\Http\Controllers\CongnitiveFitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,17 +11,14 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/get-cognitit-user-access-token', [CongnitiveFitController::class,'getUserAccessToken']);
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('take-test', [TestController::class, 'takeTest']);
 // All the  patient acccessible routes
-Route::middleware('patientAccess')->group(function () {
+Route::middleware('patientAccess')->name('patient.')->prefix('patient')->group(function () {
     require __DIR__.'/patient.php';
 });
 // All the caretaker acccessible routes
