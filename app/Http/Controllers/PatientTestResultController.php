@@ -3,64 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\PatientTestResult;
-use App\Http\Requests\StorePatientTestResultRequest;
-use App\Http\Requests\UpdatePatientTestResultRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class PatientTestResultController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    public function getResult(Request $request) {
+        $congnitiveFitController = new CongnitiveFitController();
+        $user = User::find(auth()->user()->id);
+        
+        $result = $congnitiveFitController->getHistoricalScore($user);
+        if(!$result->hasError()) {
+            $data = $result->getData();
+            $baseScore = $data['baseScore'];
+            $user->userDetail()->update([
+                'cognitive_score' => $baseScore
+            ]);
+            
+            $score = collect($data['historicalScoreAndSkills'])->last();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePatientTestResultRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(PatientTestResult $patientTestResult)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PatientTestResult $patientTestResult)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePatientTestResultRequest $request, PatientTestResult $patientTestResult)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(PatientTestResult $patientTestResult)
-    {
-        //
     }
 }

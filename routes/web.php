@@ -9,6 +9,7 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+Route::post('/cognifitCallback', [DashboardController::class, 'cognifitCallback']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

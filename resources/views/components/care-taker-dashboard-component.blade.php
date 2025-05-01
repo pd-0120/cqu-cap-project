@@ -3,7 +3,7 @@
         <div class="col-md-6 p-5">
             <div class="row">
                 <div class="col-md-6 col-sm-12 card2">
-                    <div class="card card-custom card-stretch gutter-b">
+                    <div class="card card-custom  card-stretch gutter-b">
                         <div class="card-header border-0 pt-6">
                             <h3 class="card-title">
                                 <span class="card-label font-weight-bolder font-size-h4 text-dark-75">Total Allocated
@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12 card2">
-                    <div class="card card-custom card-stretch gutter-b">
+                    <div class="card card-custom  card-stretch gutter-b">
                         <div class="card-header border-0 pt-6">
                             <h3 class="card-title">
                                 <span class="card-label font-weight-bolder font-size-h4 text-dark-75">Total Tests</span>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12 card2">
-                    <div class="card card-custom card-stretch gutter-b">
+                    <div class="card card-custom  card-stretch gutter-b">
                         <div class="card-header border-0 pt-6">
                             <h3 class="card-title">
                                 <span class="card-label font-weight-bolder font-size-h4 text-dark-75">Total House
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12 card2">
-                    <div class="card card-custom card-stretch gutter-b">
+                    <div class="card card-custom  card-stretch gutter-b">
                         <div class="card-header border-0 pt-6">
                             <h3 class="card-title">
                                 <span class="card-label font-weight-bolder font-size-h4 text-dark-75">Total Allocated
@@ -65,7 +65,7 @@
     </div>
     <div class="row">
         <div class="col-md-6 card2">
-            <div class="card card-custom card-stretch gutter-b">
+            <div class="card card-custom  card-stretch gutter-b">
                 <div class="card-header border-0 pt-6">
                     <h3 class="card-title">
                         <span class="card-label font-weight-bolder font-size-h4 text-dark-75">Total Allocated
