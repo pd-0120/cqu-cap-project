@@ -82,17 +82,25 @@ class TestController extends Controller
 	public function storeAssignTest(StorePatientTest $request, User $patient)
 	{
 
-		PatientTest::create([
-			'patient_id' => $patient->id,
-			'assigned_by' => auth()->user()->id,
-			'test_id' => $request['test_id'],
-			'score' => 0,
-			'assign_for_date' => Carbon::today(),
-			'due_date' => Carbon::parse($request['due_date']),
-		]);
+		$pendingPatientTest = PatientTest::where('patient_id', $patient->id)->where('test_id', $request['test_id'])->whereNot('status', 'COMPLETED')->first();
 
-		Session::flash('message.level', 'success');
-		Session::flash('message.content', 'Test successfully assigned to patient.');
+		if (!$pendingPatientTest) {
+			PatientTest::create([
+				'patient_id' => $patient->id,
+				'assigned_by' => auth()->user()->id,
+				'test_id' => $request['test_id'],
+				'score' => 0,
+				'assign_for_date' => Carbon::today(),
+				'due_date' => Carbon::parse($request['due_date']),
+			]);
+
+			Session::flash('message.level', 'success');
+			Session::flash('message.content', 'Test successfully assigned to patient.');
+		} else {
+			Session::flash('message.level', 'danger');
+			Session::flash('message.content', 'The test is already <b>Pending</b>. Please <b> send the reminider </b> insted to patient to finish the test.');
+		}
+
 
 		return redirect()->route('caretaker.tests.index');
 	}
@@ -119,7 +127,6 @@ class TestController extends Controller
 				})
 				->editColumn('taken_date', function ($data) {
 					return $data->taken_date ? Carbon::parse($data->taken_date)->toDateString() : "Test not taken yet";
-					
 				})
 				->editColumn('due_date', function ($data) {
 					return Carbon::parse($data->due_date)->toDateString();
@@ -132,7 +139,8 @@ class TestController extends Controller
 		return view('caretaker.test.assigned-tests-index');
 	}
 
-	public function deleteAssignTest(PatientTest $assignTest) {
+	public function deleteAssignTest(PatientTest $assignTest)
+	{
 		$assignTest->delete();
 
 		Session::flash('message.level', 'success');

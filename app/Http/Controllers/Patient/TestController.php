@@ -49,6 +49,10 @@ class TestController extends Controller
 
     public function takeTest(PatientTest $test)
 	{
+		$test->update([
+			'status' => 'STARTED'
+		]);
+		
 		$congnitiveFitController = new CongnitiveFitController();
 		$jsVersion = $congnitiveFitController->getCognifitJSversion();
 		$user = auth()->user();

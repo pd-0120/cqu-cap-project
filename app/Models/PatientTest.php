@@ -38,4 +38,14 @@ class PatientTest extends Model
     public function test(){
         return $this->belongsTo(Test::class,);
     }
+
+    public function patientTestResult() {
+        return $this->hasOne(PatientTestResult::class);
+    }
+
+    protected static function booted () {
+        static::deleting(function(PatientTest $patientTest) { 
+            $patientTest->patientTestResult()->delete();
+        });
+    }
 }
