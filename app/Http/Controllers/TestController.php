@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePatientTest;
+use App\Mail\TestReminderToPatientMail;
 use App\Models\PatientTest;
 use App\Models\Test;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,6 +114,7 @@ class TestController extends Controller
 
 			$model = $model->where('assigned_by', auth()->user()->id);
 
+
 			return DataTables::eloquent($model)
 				->editColumn('patient_id', function ($data) {
 					return $data->patient->full_name;
@@ -148,4 +151,19 @@ class TestController extends Controller
 
 		return redirect()->back();
 	}
+
+    public function sendTestReminder(PatientTest $test)
+    {
+        if($test->assigned_by !== auth()->user()->id) {
+            Session::flash('message.level', 'warning');
+            Session::flash('message.content', 'You do not have permission to send reminder to this patient.');
+        }
+
+        Mail::to($test->patient->email)
+            ->send(new TestReminderToPatientMail($test));
+
+        Session::flash('message.level', 'success');
+        Session::flash('message.content', 'The reminder has been sent to patient.');
+        return redirect()->back();
+    }
 }

@@ -34,9 +34,19 @@
             function receiveMessage(event) {
 
                 if (event.origin == "https://js.cognifit.com") {
-                    console.log("🚀 ~ :27 ~ receiveMessage ~ event:", event)
+                    
+
                     if (event.data.status == "aborted") {
+                        $('#cogniFitContent').children().remove();
                         displayDiv.removeChild(displayDiv.lastChild);
+                        axios.post("{{ route('patient.tests.get-pre-test-result', ['test' => $test->id]) }}", {
+                            testId: "{{ $test->id }}",
+                            data: event.data
+                        }).then((response) => {
+                            console.log("🚀 ~ :44 ~ axios.post ~ response:", response.data)
+                            $('#cogniFitContent').html(response.data);
+                        });
+                        
                     } else if (event.data.status == "event" && event.data.action == "loadingComplete") {
                         const iframeParent = document.getElementById('cogniFitContent');
                         if (iframeParent) {
