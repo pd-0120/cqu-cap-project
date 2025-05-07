@@ -42,6 +42,7 @@ class PatientController extends Controller
     public function create()
     {
         $locations = Location::all();
+        
         return view('caretaker.patient.create', compact('locations'));
     }
 
