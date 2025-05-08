@@ -13,7 +13,7 @@
     <div class="row">
 
         <div class="col-md-12" id="cogniFitContent">
-            
+
         </div>
     </div>
     @push('UserJS')
@@ -33,10 +33,10 @@
 
             function receiveMessage(event) {
 
-                if (event.origin == "https://js.cognifit.com") {
-                    
+                if (event.origin === "https://js.cognifit.com") {
+                    console.log("🚀 ~ :44 ~ axios.post ~ response:", response.data)
 
-                    if (event.data.status == "aborted") {
+                    if (event.data.status === "aborted" || event.data.status === "completed") {
                         $('#cogniFitContent').children().remove();
                         displayDiv.removeChild(displayDiv.lastChild);
                         axios.post("{{ route('patient.tests.get-pre-test-result', ['test' => $test->id]) }}", {
@@ -46,8 +46,8 @@
                             console.log("🚀 ~ :44 ~ axios.post ~ response:", response.data)
                             $('#cogniFitContent').html(response.data);
                         });
-                        
-                    } else if (event.data.status == "event" && event.data.action == "loadingComplete") {
+
+                    } else if (event.data.status === "event" && event.data.action === "loadingComplete") {
                         const iframeParent = document.getElementById('cogniFitContent');
                         if (iframeParent) {
                             iframeParent.style.width = '100vw';
