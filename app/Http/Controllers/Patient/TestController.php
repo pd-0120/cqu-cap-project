@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Patient;
 
+use App\Enum\PatientTestStatus;
+use App\Enum\TestTypeEnum;
 use App\Http\Controllers\CongnitiveFitController;
 use App\Http\Controllers\Controller;
 use App\Models\PatientTest;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
 class TestController extends Controller
@@ -51,6 +54,12 @@ class TestController extends Controller
 
     public function takeTest(PatientTest $test)
 	{
+        if($test->status === PatientTestStatus::COMPLETED->name) {
+            Session::flash('message.level', 'warning');
+            Session::flash('message.content', 'You can not take the same test again.');
+
+            return redirect()->route('patient.tests.index');
+        }
 		$test->update([
 			'status' => 'STARTED'
 		]);
@@ -64,12 +73,11 @@ class TestController extends Controller
 
 		$clientId = config("app.cognifit.client");
 
-		$type = $test->test_type == "GAME" ? "gameMode" : ($test->test_type == "ASSESSMENT" ? "assessmentMode" : "trainingMode");
+		$type = $test->test_type == TestTypeEnum::GAME->toString() ? "gameMode" : ($test->test_type == TestTypeEnum::ASSESSMENT->toString() ? "assessmentMode" : "trainingMode");
 
 		$task = $test->test->assessment->key;
 
 		return view('patient.test.play', compact('userAccessToken', 'test', 'type', 'task', 'clientId', 'jsVersion'));
 	}
-
 
 }

@@ -16,6 +16,7 @@
 
         </div>
     </div>
+
     @push('UserJS')
         <script src="https://js.cognifit.com/{{ $jsVersion }}/html5Loader.js"></script>
         <script>
@@ -34,7 +35,7 @@
             function receiveMessage(event) {
 
                 if (event.origin === "https://js.cognifit.com") {
-                    console.log("🚀 ~ :44 ~ axios.post ~ response:", response.data)
+                    console.log("🚀 ~ :44 ~ axios.post ~ response:", event)
 
                     if (event.data.status === "aborted" || event.data.status === "completed") {
                         $('#cogniFitContent').children().remove();

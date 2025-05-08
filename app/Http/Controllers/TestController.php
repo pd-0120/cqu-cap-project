@@ -31,10 +31,10 @@ class TestController extends Controller
 			return DataTables::eloquent($model)
                 ->editColumn('test_type', function ($data) {
                     $type = $data->test_type;
-                    if($type == TestTypeEnum::ASSESSMENT) {
-                        $type = '<span><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">. TestTypeEnum::ASSESSMENT->toString() .</span></span>';
-                    } else if($type == TestTypeEnum::TRAINING) {
-                        $type = '<span><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">. TestTypeEnum::TRAINING->toString() .</span></span>';
+                    if($type == TestTypeEnum::ASSESSMENT->name) {
+                        $type = '<span><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">'. TestTypeEnum::ASSESSMENT->toString() .'</span></span>';
+                    } else if($type == TestTypeEnum::TRAINING->name) {
+                        $type = '<span><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">'. TestTypeEnum::TRAINING->toString() .'</span></span>';
                     } else {
                         $type = '<span><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">'. TestTypeEnum::GAME->toString() .'</span></span>';
                     }
