@@ -41,7 +41,7 @@ class Test extends Model
 
     protected static function booted () {
         static::deleting(function(Test $test) { 
-            ($test->patientsTest()->delete());
+            $test->patientsTest()->delete();
         });
     }
 }

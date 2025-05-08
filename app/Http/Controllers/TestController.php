@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\PatientTestStatus;
+use App\Enum\TestTypeEnum;
 use App\Http\Requests\StorePatientTest;
+use App\Mail\TestReminderToPatientMail;
 use App\Models\PatientTest;
 use App\Models\Test;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,13 +29,24 @@ class TestController extends Controller
 			$model = $model->where('created_by', Auth::user()->id);
 
 			return DataTables::eloquent($model)
-				->addColumn('actions', function ($data) {
+                ->editColumn('test_type', function ($data) {
+                    $type = $data->test_type;
+                    if($type == TestTypeEnum::ASSESSMENT) {
+                        $type = '<span><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">. TestTypeEnum::ASSESSMENT->toString() .</span></span>';
+                    } else if($type == TestTypeEnum::TRAINING) {
+                        $type = '<span><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">. TestTypeEnum::TRAINING->toString() .</span></span>';
+                    } else {
+                        $type = '<span><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">'. TestTypeEnum::GAME->toString() .'</span></span>';
+                    }
+                    return $type;
+                })
+                ->addColumn('actions', function ($data) {
 					return view('caretaker.test.action', compact('data'))->render();
 				})
 				->editColumn('assessment_list_id', function ($data) {
 					return $data->assessment->title;
 				})
-				->rawColumns(['actions'])->make(true);
+				->rawColumns(['actions', 'test_type'])->make(true);
 		}
 
 		return view('caretaker.test.index');
@@ -82,17 +97,25 @@ class TestController extends Controller
 	public function storeAssignTest(StorePatientTest $request, User $patient)
 	{
 
-		PatientTest::create([
-			'patient_id' => $patient->id,
-			'assigned_by' => auth()->user()->id,
-			'test_id' => $request['test_id'],
-			'score' => 0,
-			'assign_for_date' => Carbon::today(),
-			'due_date' => Carbon::parse($request['due_date']),
-		]);
+		$pendingPatientTest = PatientTest::where('patient_id', $patient->id)->where('test_id', $request['test_id'])->whereNot('status', 'COMPLETED')->first();
 
-		Session::flash('message.level', 'success');
-		Session::flash('message.content', 'Test successfully assigned to patient.');
+		if (!$pendingPatientTest) {
+			PatientTest::create([
+				'patient_id' => $patient->id,
+				'assigned_by' => auth()->user()->id,
+				'test_id' => $request['test_id'],
+				'score' => 0,
+				'assign_for_date' => Carbon::today(),
+				'due_date' => Carbon::parse($request['due_date']),
+			]);
+
+			Session::flash('message.level', 'success');
+			Session::flash('message.content', 'Test successfully assigned to patient.');
+		} else {
+			Session::flash('message.level', 'danger');
+			Session::flash('message.content', 'The test is already <b>Pending</b>. Please <b> send the reminider </b> insted to patient to finish the test.');
+		}
+
 
 		return redirect()->route('caretaker.tests.index');
 	}
@@ -104,10 +127,14 @@ class TestController extends Controller
 
 			$model = $model->where('assigned_by', auth()->user()->id);
 
+
 			return DataTables::eloquent($model)
 				->editColumn('patient_id', function ($data) {
 					return $data->patient->full_name;
 				})
+                ->editColumn('score', function ($data) {
+                    return '<span class="font-weight-bold text-success">'. $data->score .'</span>';
+                })
 				->editColumn('assigned_by', function ($data) {
 					return $data->assignedBy->full_name;
 				})
@@ -119,20 +146,31 @@ class TestController extends Controller
 				})
 				->editColumn('taken_date', function ($data) {
 					return $data->taken_date ? Carbon::parse($data->taken_date)->toDateString() : "Test not taken yet";
-					
 				})
 				->editColumn('due_date', function ($data) {
 					return Carbon::parse($data->due_date)->toDateString();
 				})
+                ->editColumn('status', function ($data) {
+                    $status = $data->status;
+                    if($status == PatientTestStatus::PENDING->name) {
+                        $status = '<span class="label font-weight-bold label-lg  label-light-warning label-inline">'. PatientTestStatus::PENDING->toString() .'</span>';
+                    } elseif($status == PatientTestStatus::STARTED->name) {
+                        $status = '<span class="label font-weight-bold label-lg  label-light-primary label-inline">'. PatientTestStatus::STARTED->toString() .'</span>';
+                    } else {
+                        $status = '<span class="label font-weight-bold label-lg  label-light-success label-inline">'. PatientTestStatus::COMPLETED->toString() .'</span>';
+                    }
+                    return $status;
+                })
 				->addColumn('actions', function ($data) {
 					return view('caretaker.test.assigned-tests-action', compact('data'))->render();
 				})
-				->rawColumns(['actions'])->make(true);
+				->rawColumns(['actions', 'status', 'score'])->make(true);
 		}
 		return view('caretaker.test.assigned-tests-index');
 	}
 
-	public function deleteAssignTest(PatientTest $assignTest) {
+	public function deleteAssignTest(PatientTest $assignTest)
+	{
 		$assignTest->delete();
 
 		Session::flash('message.level', 'success');
@@ -140,4 +178,19 @@ class TestController extends Controller
 
 		return redirect()->back();
 	}
+
+    public function sendTestReminder(PatientTest $test)
+    {
+        if($test->assigned_by !== auth()->user()->id) {
+            Session::flash('message.level', 'warning');
+            Session::flash('message.content', 'You do not have permission to send reminder to this patient.');
+        }
+
+        Mail::to($test->patient->email)
+            ->send(new TestReminderToPatientMail($test));
+
+        Session::flash('message.level', 'success');
+        Session::flash('message.content', 'The reminder has been sent to patient.');
+        return redirect()->back();
+    }
 }

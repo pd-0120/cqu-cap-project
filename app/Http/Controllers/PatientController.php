@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserStatusEnum;
 use App\Http\Requests\CreatePatientRequest;
 use App\Http\Requests\UpdatePatientDetailsRequest;
 use App\Mail\SendPasswordToPatientEmail;
@@ -9,6 +10,7 @@ use App\Models\Location;
 use App\Models\User;
 use App\Models\UserDetail;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -21,6 +23,7 @@ class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @throws Exception
      */
     public function index(Request $request)
     {
@@ -28,9 +31,23 @@ class PatientController extends Controller
             $model = User::query()->with('userDetail');
             $model = $model->where('caretaker_id', Auth::user()->id);
 
-            return DataTables::eloquent($model)->addColumn('actions', function ($data) {
-                return view('caretaker.patient.action', compact('data'))->render();
-            })->rawColumns(['actions'])->make(true);
+            return DataTables::eloquent($model)
+                ->editColumn('user_detail.status', function ($data) {
+                    $status = $data->userDetail->status;
+
+                    if($status == UserStatusEnum::ACTIVE->value) {
+                        $status = '<span class="label font-weight-bold label-lg  label-light-success label-inline">'. UserStatusEnum::ACTIVE->toString() .'</span>';
+                    } elseif($status == UserStatusEnum::INACTIVE->value) {
+                        $status = '<span class="label font-weight-bold label-lg  label-light-primary label-inline">'. UserStatusEnum::INACTIVE->toString() .'</span>';
+                    } else {
+                        $status = '<span class="label font-weight-bold label-lg  label-light-danger label-inline">'. UserStatusEnum::DECEASED->toString() .'</span>';
+                    }
+                    return $status;
+                })
+                ->addColumn('actions', function ($data) {
+                    return view('caretaker.patient.action', compact('data'))->render();
+                })
+                ->rawColumns(['actions', 'user_detail.status'])->make(true);
         }
 
         return view('caretaker.patient.index');
@@ -42,6 +59,7 @@ class PatientController extends Controller
     public function create()
     {
         $locations = Location::all();
+
         return view('caretaker.patient.create', compact('locations'));
     }
 
@@ -52,7 +70,7 @@ class PatientController extends Controller
     {
         $password = str()->password(8);
         $encryptedPassword = Crypt::encryptString($password);
-        
+
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,

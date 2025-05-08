@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 use CognifitSdk\Lib\UserData;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use CognifitSdk\Api\UserActivity;
 
 
 class CongnitiveFitController extends Controller
@@ -25,9 +26,9 @@ class CongnitiveFitController extends Controller
     {
         $userName               = $user->full_name;
         $userEmail              = $user->email;
-        $userBirth              = is_string($user->dob) ? $user->dob : $user->dob->toDateString();
+        $userBirth              = is_string($user->dob) ? $user->dob :  $user->dob->toDateString();
         $locale                 = 'en';
-
+        $password               = "E80i0c2$";
         $cognifitApiUserAccount = new UserAccount(
             $this->clientId,
             $this->clientSecret,
@@ -38,15 +39,15 @@ class CongnitiveFitController extends Controller
             'user_email'    => $userEmail,
             'user_birthday' => $userBirth,
             'user_locale'   => $locale,
-            'user_password' => "E80i0c2$"
+            'user_password' => $password
         ]));
-        
+
         if (!$response->hasError()) {
             $cognifitUserToken = $response->get('user_token');
             if ($cognifitUserToken) {
                 $user->cognifit_user_token = $cognifitUserToken;;
                 $user->save();
-                
+
                 return true;
             }
         } else {
@@ -60,7 +61,6 @@ class CongnitiveFitController extends Controller
 
     public function getUserAccessToken($user)
     {
-
         $cognifitUserToken = $user->cognifit_user_token;
 
         $cognifitApiUserAccessToken = new UserAccessToken(
@@ -87,7 +87,7 @@ class CongnitiveFitController extends Controller
             "total_points" => 50
         ]);
         $userAccounts = $response->json('userAccounts');
-        
+
         foreach ($userAccounts as $userAccount) {
             $userToken              = $userAccount['user_token'];
             $cognifitApiUserAccount = new UserAccount(
@@ -96,5 +96,35 @@ class CongnitiveFitController extends Controller
             );
             $response = $cognifitApiUserAccount->delete($userToken);
         }
+    }
+
+    public function getHistoricalScore(User $user)
+    {
+        $cognifitUserToken = $user->cognifit_user_token;
+
+        $cognifitApiUserActivity = new UserActivity(
+            $this->clientId,
+            $this->clientSecret,
+        );
+
+        $response = $cognifitApiUserActivity->getHistoricalScoreAndSkills($cognifitUserToken);
+        if (!$response->hasError()) {
+        }
+        return $response;
+    }
+
+    public function getPlayedGames(User $user)
+    {
+        $cognifitUserToken = $user->cognifit_user_token;
+
+        $cognifitApiUserActivity = new UserActivity(
+            $this->clientId,
+            $this->clientSecret,
+        );
+
+        $response = $cognifitApiUserActivity->getPlayedGames($cognifitUserToken);
+        if (!$response->hasError()) {
+        }
+        return $response;
     }
 }
