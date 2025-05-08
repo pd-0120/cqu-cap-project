@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\PatientTestStatus;
+use App\Enum\TestTypeEnum;
 use App\Http\Requests\StorePatientTest;
 use App\Mail\TestReminderToPatientMail;
 use App\Models\PatientTest;
@@ -27,13 +29,24 @@ class TestController extends Controller
 			$model = $model->where('created_by', Auth::user()->id);
 
 			return DataTables::eloquent($model)
-				->addColumn('actions', function ($data) {
+                ->editColumn('test_type', function ($data) {
+                    $type = $data->test_type;
+                    if($type == TestTypeEnum::ASSESSMENT) {
+                        $type = '<span><span class="label label-warning label-dot mr-2"></span><span class="font-weight-bold text-warning">. TestTypeEnum::ASSESSMENT->toString() .</span></span>';
+                    } else if($type == TestTypeEnum::TRAINING) {
+                        $type = '<span><span class="label label-success label-dot mr-2"></span><span class="font-weight-bold text-success">. TestTypeEnum::TRAINING->toString() .</span></span>';
+                    } else {
+                        $type = '<span><span class="label label-primary label-dot mr-2"></span><span class="font-weight-bold text-primary">'. TestTypeEnum::GAME->toString() .'</span></span>';
+                    }
+                    return $type;
+                })
+                ->addColumn('actions', function ($data) {
 					return view('caretaker.test.action', compact('data'))->render();
 				})
 				->editColumn('assessment_list_id', function ($data) {
 					return $data->assessment->title;
 				})
-				->rawColumns(['actions'])->make(true);
+				->rawColumns(['actions', 'test_type'])->make(true);
 		}
 
 		return view('caretaker.test.index');
@@ -119,6 +132,9 @@ class TestController extends Controller
 				->editColumn('patient_id', function ($data) {
 					return $data->patient->full_name;
 				})
+                ->editColumn('score', function ($data) {
+                    return '<span class="font-weight-bold text-success">'. $data->score .'</span>';
+                })
 				->editColumn('assigned_by', function ($data) {
 					return $data->assignedBy->full_name;
 				})
@@ -134,10 +150,21 @@ class TestController extends Controller
 				->editColumn('due_date', function ($data) {
 					return Carbon::parse($data->due_date)->toDateString();
 				})
+                ->editColumn('status', function ($data) {
+                    $status = $data->status;
+                    if($status == PatientTestStatus::PENDING->name) {
+                        $status = '<span class="label font-weight-bold label-lg  label-light-warning label-inline">'. PatientTestStatus::PENDING->toString() .'</span>';
+                    } elseif($status == PatientTestStatus::STARTED->name) {
+                        $status = '<span class="label font-weight-bold label-lg  label-light-primary label-inline">'. PatientTestStatus::STARTED->toString() .'</span>';
+                    } else {
+                        $status = '<span class="label font-weight-bold label-lg  label-light-success label-inline">'. PatientTestStatus::COMPLETED->toString() .'</span>';
+                    }
+                    return $status;
+                })
 				->addColumn('actions', function ($data) {
 					return view('caretaker.test.assigned-tests-action', compact('data'))->render();
 				})
-				->rawColumns(['actions'])->make(true);
+				->rawColumns(['actions', 'status', 'score'])->make(true);
 		}
 		return view('caretaker.test.assigned-tests-index');
 	}

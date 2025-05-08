@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enum\TestTypeEnum;
 use App\Models\CognifitAssessmentListTasks;
 use App\Models\CognifitCognitiveAssessmentList;
 use App\Models\CognitiveSkillsList;
@@ -55,7 +56,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
                 $cognifitCognitiveAssessment->image = $image;
                 $cognifitCognitiveAssessment->estimated_time = $estimamtedTime;
                 $cognifitCognitiveAssessment->key = $key;
-                $cognifitCognitiveAssessment->type = "ASSESSMENT";
+                $cognifitCognitiveAssessment->type = TestTypeEnum::ASSESSMENT;
                 $cognifitCognitiveAssessment->save();
 
                 if (count($tasks) > 0) {
@@ -97,7 +98,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
                 $cognifitCognitiveAssessment->image = $image;
                 $cognifitCognitiveAssessment->estimated_time = $estimamtedTime;
                 $cognifitCognitiveAssessment->key = $key;
-                $cognifitCognitiveAssessment->type = "ASSESSMENT";
+                $cognifitCognitiveAssessment->type = TestTypeEnum::ASSESSMENT;
                 $cognifitCognitiveAssessment->save();
 
                 if (count($tasks) > 0) {
@@ -120,7 +121,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
     public function storeQuestionnaires(Product $products)
     {
         $questionnaires = $products->getQuestionnaires($this->localesForAssets);
-        
+
         foreach ($questionnaires as $key => $questionnairy) {
             $tasks = [];
             $skills = $questionnairy->getSkills();
@@ -138,7 +139,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
             $cognifitCognitiveAssessment->image = $image;
             $cognifitCognitiveAssessment->estimated_time = $estimamtedTime;
             $cognifitCognitiveAssessment->key = $key;
-            $cognifitCognitiveAssessment->type = "ASSESSMENT";
+            $cognifitCognitiveAssessment->type = TestTypeEnum::ASSESSMENT;
             $cognifitCognitiveAssessment->save();
 
             if (count($tasks) > 0) {
@@ -159,7 +160,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
         $trainingPrograms = $products->getTraining($this->localesForAssets);
 
         foreach ($trainingPrograms as $key => $trainingProgram) {
-            
+
             $tasks = $trainingProgram->getTasks();
             $skills = $trainingProgram->getSkills();
             $key = $trainingProgram->getKey();
@@ -176,7 +177,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
             $cognifitCognitiveAssessment->image = $image;
             $cognifitCognitiveAssessment->estimated_time = $estimamtedTime;
             $cognifitCognitiveAssessment->key = $key;
-            $cognifitCognitiveAssessment->type = "TRAINING";
+            $cognifitCognitiveAssessment->type = TestTypeEnum::TRAINING;
             $cognifitCognitiveAssessment->save();
 
             if (count($tasks) > 0) {
@@ -198,7 +199,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
 
         foreach ($games as $key => $game) {
             $tasks = [];
-            
+
             $skills = $game->getSkills();
             $key = $game->getKey();
             $estimamtedTime = 0;
@@ -214,7 +215,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
             $cognifitCognitiveAssessment->image = $image;
             $cognifitCognitiveAssessment->estimated_time = $estimamtedTime;
             $cognifitCognitiveAssessment->key = $key;
-            $cognifitCognitiveAssessment->type = "GAME";
+            $cognifitCognitiveAssessment->type = TestTypeEnum::GAME;
             $cognifitCognitiveAssessment->save();
 
             if (count($tasks) > 0) {
