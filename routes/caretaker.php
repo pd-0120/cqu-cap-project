@@ -11,8 +11,8 @@ Route::resource("location", LocationController::class);
 Route::resource("tests", TestController::class);
 Route::get("tests/assign-test/index", [TestController::class, 'assignTestIndex'])->name('tests.assignTestIndex');
 Route::get("tests/assign-test/{patient}", [TestController::class, 'assignTest'])->name('tests.assignTest');
-Route::post("tests/assign-test/{patient}", [TestController::class, 'storeAssignTest'])->name('tests.storeAssignTest');
+Route::post("tests/assign-test/duplicate/{test}", [TestController::class, 'duplicateAssignTest'])->name('tests.duplicate-test');
 Route::post("tests/send-test-reminder/{test}", [TestController::class, 'sendTestReminder'])->name('tests.sendTestReminder');
 Route::delete("tests/assign-test/{assignTest}", [TestController::class, 'deleteAssignTest'])->name('tests.deleteAssignTest');
 
-Route::get('delete-cognifit-account',[ CongnitiveFitController::class, 'deleteAllCognifitAccounts']);
+Route::get('delete-cognifit-account', action: [ CongnitiveFitController::class, 'deleteAllCognifitAccounts']);

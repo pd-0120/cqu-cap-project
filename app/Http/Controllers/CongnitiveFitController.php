@@ -62,14 +62,11 @@ class CongnitiveFitController extends Controller
     public function getUserAccessToken($user)
     {
         $cognifitUserToken = $user->cognifit_user_token;
-
         $cognifitApiUserAccessToken = new UserAccessToken(
             $this->clientId,
             $this->clientSecret,
         );
-        $response = $cognifitApiUserAccessToken->issue($cognifitUserToken);
-
-        return $response;
+        return $cognifitApiUserAccessToken->issue($cognifitUserToken);
     }
 
     public function getCognifitJSversion()

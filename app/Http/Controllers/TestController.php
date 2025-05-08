@@ -40,13 +40,16 @@ class TestController extends Controller
                     }
                     return $type;
                 })
+                ->editColumn('description', function ($data) {
+                    return str($data->description)->limit(100);
+                })
                 ->addColumn('actions', function ($data) {
 					return view('caretaker.test.action', compact('data'))->render();
 				})
 				->editColumn('assessment_list_id', function ($data) {
 					return $data->assessment->title;
 				})
-				->rawColumns(['actions', 'test_type'])->make(true);
+				->rawColumns(['actions', 'test_type', 'description'])->make(true);
 		}
 
 		return view('caretaker.test.index');
@@ -113,11 +116,11 @@ class TestController extends Controller
 			Session::flash('message.content', 'Test successfully assigned to patient.');
 		} else {
 			Session::flash('message.level', 'danger');
-			Session::flash('message.content', 'The test is already <b>Pending</b>. Please <b> send the reminider </b> insted to patient to finish the test.');
+			Session::flash('message.content', 'The test is already <b>Pending</b>. Please <b> send the reminder </b> instead to patient to finish the test.');
 		}
 
 
-		return redirect()->route('caretaker.tests.index');
+		return redirect()->route('caretaker.tests.assignTestIndex');
 	}
 
 	public function assignTestIndex(Request $request)
@@ -192,5 +195,21 @@ class TestController extends Controller
         Session::flash('message.level', 'success');
         Session::flash('message.content', 'The reminder has been sent to patient.');
         return redirect()->back();
+    }
+
+    public function duplicateAssignTest(PatientTest $test) {
+
+        $newTest = $test->replicate()->fill([
+            'due_date' => today()->addDays(30),
+            'assign_for_date' => today(),
+            'status' => PatientTestStatus::PENDING->name,
+            'score' => 0,
+        ]);
+        $newTest->save();
+
+        Session::flash('message.level', 'success');
+        Session::flash('message.content', 'The test has been duplicated successfully.');
+        return redirect()->back();
+
     }
 }

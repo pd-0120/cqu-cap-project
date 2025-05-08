@@ -55,7 +55,7 @@ class CreateTestComponent extends Component
                 'assessment_list_id' => $this->assessment_list_id,
                 'created_by' => auth()->user()->id
             ]);
-    
+
             Session::flash('message.level', 'success');
             Session::flash('message.content', 'Test created successfully.');
         } else {
@@ -65,7 +65,7 @@ class CreateTestComponent extends Component
                 'test_type' => $this->test_type,
                 'assessment_list_id' => $this->assessment_list_id,
             ]);
-    
+
             Session::flash('message.level', 'success');
             Session::flash('message.content', 'Test updated successfully.');
         }
