@@ -153,7 +153,7 @@
                 <span class="navi-link">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <a href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();" class="btn btn-sm btn-light-primary font-weight-bolder py-3 px-6">Sign Out</a>
+                        <button onclick="event.preventDefault(); this.closest('form').submit();" class="btn btn-sm btn-light-primary font-weight-bolder py-3 px-6">Sign Out</button>
                     </form>
                 </span>
             </span>
