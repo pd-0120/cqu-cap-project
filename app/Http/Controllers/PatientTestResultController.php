@@ -23,7 +23,17 @@ class PatientTestResultController extends Controller
 
                 return redirect()->route('dashboard');
             }
-            return view('patient.test.result');
+			$patientTestResult = $test->patientTestResult;
+
+			if(!($patientTestResult)) {
+				Session::flash('message.level', 'warning');
+				Session::flash('message.content', 'The test is not completed yet.');
+
+				return redirect()->route('dashboard');
+			}
+			$responseData = collect(json_decode($patientTestResult->response));
+
+            return view('patient.test.result', compact('user', 'test', 'responseData', 'patientTestResult'));
         }
         Session::flash('message.level', 'warning');
         Session::flash('message.content', 'You can view result for this test.');
@@ -75,4 +85,6 @@ class PatientTestResultController extends Controller
         }
         return Blade::render('patient.test.pre-test-result', compact('test', 'testStatus', 'testMode', 'testKey'));
     }
+
+
 }
