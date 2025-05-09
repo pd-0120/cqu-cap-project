@@ -53,8 +53,12 @@
                                 <label for="">
                                     State:
                                 </label>
-                                <input type="text" class="form-control" placeholder="Enter State" name="state"
-                                    value="{{ $location->state }}" />
+								<select  class="form-control" placeholder="Enter State" name="state" >
+									<option value="">Select</option>
+									@foreach($australianStates as $australianState)
+										<option value="{{ $australianState  }}" @selected( $location->state == $australianState)>{{ $australianState  }}</option>
+									@endforeach
+								</select>
                                 <x-form-error-component :label='"state"' />
                             </div>
                             <div class="col-md-3 col-sm-6 form-group">

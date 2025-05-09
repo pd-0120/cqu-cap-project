@@ -19,7 +19,6 @@ class LocationController extends Controller
     {
         if ($request->ajax()) {
             $model = Location::query()->where('created_by', Auth::user()->id);
-            // $model = $model->where('caretaker_id', Auth::user()->id);
 
             return DataTables::eloquent($model)->addColumn('actions', function ($data) {
                 return view('caretaker.location.action', compact('data'))->render();
@@ -33,8 +32,9 @@ class LocationController extends Controller
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
-    {   
-        return view('caretaker.location.create');
+    {
+		$australianStates = config('app.states');
+        return view('caretaker.location.create', compact('australianStates'));
     }
 
     /**
@@ -53,7 +53,7 @@ class LocationController extends Controller
 
         Session::flash('message.level', 'success');
         Session::flash('message.content', 'Location added successfully.');
-        
+
         return redirect()->route('caretaker.location.index');
     }
 
@@ -70,7 +70,9 @@ class LocationController extends Controller
      */
     public function edit(Location $location)
     {
-        return view('caretaker.location.edit', compact('location'));        
+		$australianStates = config('app.states');
+
+        return view('caretaker.location.edit', compact('location', 'australianStates'));
     }
 
     /**

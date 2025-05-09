@@ -59,8 +59,9 @@ class PatientController extends Controller
     public function create()
     {
         $locations = Location::all();
+		$australianStates = config('app.states');
 
-        return view('caretaker.patient.create', compact('locations'));
+        return view('caretaker.patient.create', compact('locations', 'australianStates'));
     }
 
     /**
@@ -118,9 +119,10 @@ class PatientController extends Controller
     {
         $userDetail = $patient->userDetail;
         $locations = Location::all();
+		$australianStates = config('app.states');
 
         if ($patient->caretaker_id == Auth::user()->id) {
-            return view('caretaker.patient.edit', compact('patient', 'userDetail', 'locations'));
+            return view('caretaker.patient.edit', compact('patient', 'userDetail', 'locations', 'australianStates'));
         } else {
             Session::flash('message.level', 'warning');
             Session::flash('message.content', 'You do not have permission to edit this user.');
