@@ -6,7 +6,32 @@
 	@session('message.level')
 	<x-alert-component/>
 	@endsession
-
+	@php
+	$textColour = $patientTestResult->score >= 600 ? "text-success" : (($patientTestResult->score >= 300) ? "text-primary" : "text-danger");
+	@endphp
+	<div class="row m-5">
+		<div class="col-md-12">
+			<div class="card card-custom gutter-b bg-diagonal">
+				<div class="card-body">
+					<div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
+						<div class="d-flex flex-column mr-5">
+							<a href="javascript:void(0)" class="h4 {{  $textColour }}  mb-5">
+								Current Test Score: {{ $patientTestResult->score  }}/800
+							</a>
+							<p class="text-dark-50">
+								Your current Cognitive Age: <b>{{ $patientTestResult['cognitive_age']  }}</b>
+							</p>
+						</div>
+						<div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
+							<a href="{{ route('patient.tests.index')  }}" target="" class="btn font-weight-bolder text-uppercase btn-light-success py-4 px-6">
+								View all tests
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 		@if($responseData->has('skills'))
 		<div class="row m-5">
