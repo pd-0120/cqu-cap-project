@@ -212,4 +212,10 @@ class TestController extends Controller
         return redirect()->back();
 
     }
+
+	public function getAISuggestion(User $patient) {
+		$geminiController = new GeminiController();
+		$aiResponse =  $geminiController->getGemini($patient);
+		return "Based on the patient history and given data, I have suggested you should give patient $aiResponse . If the test is not created, you can create new text and assign to your patient. Thanks";
+	}
 }

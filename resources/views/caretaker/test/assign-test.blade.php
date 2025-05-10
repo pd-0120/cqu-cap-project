@@ -1,4 +1,4 @@
-@section('pageTitle', "Assing Test to $patient->full_name")
+@section('pageTitle', "Assign Test to $patient->full_name")
 @section('pageActionData')
     <a href="{{ route('caretaker.tests.index') }}"
         class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Test List</a>
@@ -33,6 +33,15 @@
                                 <x-form-error-component :label='"due_date"' />
                             </div>
                         </div>
+						<div class="row mb-2">
+							<div class="col-md-12 form-group">
+								<textarea id="ai-suggestion" class="form-control" readonly></textarea>
+							</div>
+							<div class="col-md-3">
+								<button class="btn btn-light-success" id="ai-suggestion-btn" type="button" ><span id="ai-suggestion-text">Get AI Suggestion</span></button>
+							</div>
+						</div>
+
                         <div class="row">
                             <div class="col-md-3">
                                 <button class="btn btn-primary" type="submit">Submit</button>
@@ -52,6 +61,19 @@
                     todayHighlight: true,
                     orientation: "bottom left",
                 });
+
+				$('#ai-suggestion-btn').on('click', function() {
+					$('#ai-suggestion').text("");
+					$('#ai-suggestion-btn').prop('disabled', true);
+					$('#ai-suggestion-text').text('Generating....');
+					axios.post('{{ route('caretaker.tests.getAISuggestion', $patient)  }}').then(function(response){
+						const data = response.data
+
+						$('#ai-suggestion').text(data);
+						$('#ai-suggestion-btn').prop('disabled', false);
+						$('#ai-suggestion-text').text('Get AI Suggestion');
+					});
+				});
             }
         })
     </script>

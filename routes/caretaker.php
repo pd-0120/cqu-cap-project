@@ -17,7 +17,8 @@ Route::name('tests.')->prefix('tests/')->group(function() {
     Route::post("assign-test/duplicate/{test}", [TestController::class, 'duplicateAssignTest'])->name('duplicate-test');
     Route::post("send-test-reminder/{test}", [TestController::class, 'sendTestReminder'])->name('sendTestReminder');
     Route::delete("assign-test/{assignTest}", [TestController::class, 'deleteAssignTest'])->name('deleteAssignTest');
-    Route::post("assign-test/{patient}", [TestController::class, 'storeAssignTest'])->name('storeAssignTest');
+	Route::post("assign-test/{patient}", [TestController::class, 'storeAssignTest'])->name('storeAssignTest');
+	Route::post("get-ai-suggestion/{patient}", [TestController::class, 'getAISuggestion'])->name('getAISuggestion');
     Route::get('get-test-score/{test}', [PatientTestResultController::class, 'getResult'])->name('get-result');
 });
 
