@@ -116,7 +116,7 @@
 	<script src="{{ asset("assets/js/pages/widgets.js") }}"></script>
 	<script src="{{ asset("assets/plugins/custom/datatables/datatables.bundle.js") }}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
-	{{-- @vite(['resources/js/app.js']) --}}
+	@vite(['resources/js/app.js'])
 	
 	@stack('UserJS')
 	<!--end::Page Scripts-->
