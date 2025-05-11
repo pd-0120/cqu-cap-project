@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRolesEnum;
 use App\Enum\UserStatusEnum;
 use App\Http\Requests\CreatePatientRequest;
 use App\Http\Requests\UpdatePatientDetailsRequest;
@@ -83,7 +84,7 @@ class PatientController extends Controller
             'secret_password' => $encryptedPassword
         ]);
 
-        $user->assignRole('Patient');
+        $user->assignRole(UserRolesEnum::PATIENT->value);
         UserDetail::create([
             'user_id' => $user->id,
             'phone' => $request->phone,

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enum\UserRolesEnum;
 use App\Enum\UserStatusEnum;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -29,6 +30,7 @@ class CreateAdminUserSeeder extends Seeder
 		];
 		if(!User::whereEmail($data['email'])->exists()) {
 			$user = User::create($data);
+			$user->assignRole(UserRolesEnum::ADMIN->value);
 			UserDetail::create([
 				'user_id' => $user->id,
 				'status' => UserStatusEnum::ACTIVE->value,
