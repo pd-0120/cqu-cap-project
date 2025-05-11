@@ -11,4 +11,7 @@
 	@hasrole('Patient')
 	<x-patient-dashboard-component/>
 	@endhasrole
+	@hasrole('Admin')
+	<x-admin-dashboard-component/>
+	@endhasrole
 </x-auth-layout>
