@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         \App\Models\Location::factory(20)->create();
-
+//         \App\Models\Location::factory(20)->create();
+			$this->call(CreateAdminUserSeeder::class);
 //         $this->call(RoleSeeder::class);
 //         $this->call(CognitiveSkillsListsSeeder::class);
 //         $this->call(CognifitCognitiveAssessmentListSeeder::class);
