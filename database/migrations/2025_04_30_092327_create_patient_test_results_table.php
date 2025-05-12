@@ -14,7 +14,8 @@ return new class extends Migration
     {
         Schema::create('patient_test_results', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(PatientTest::class);
+            $table->foreignId('patient_test_id')->constrained()->onDelete('CASCADE');
+            // $table->foreignIdFor(PatientTest::class);
             $table->datetime('date')->nullable();
             $table->string('type_key');
             $table->string('type');

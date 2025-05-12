@@ -37,25 +37,25 @@
     </div>
     @push('UserJS')
         <script>
-            $(document).ready(function () {
-                var table = $('#datatable');
-                table.DataTable({
-                    responsive: true,
-                    searchDelay: 500,
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "{{ route('caretaker.location.index') }}",
-                        type: 'GET',
-                    },
-                    columns: [
-                        { data: 'id' },
-                        { data: 'name' },
-                        { data: 'street' },
-                        { data: 'suburb'},
-                        { data: 'state' },
-                        { data: 'pincode' },
-                        { data: 'phone' },
+                $(document).ready(function () {
+                    var table = $('#datatable');
+                    table.DataTable({
+                        responsive: true,
+                        searchDelay: 500,
+                        processing: true,
+                        serverSide: true,
+                        ajax: {
+                            url: "{{ route('caretaker.location.index') }}",
+                            type: 'GET',
+                        },
+                        columns: [
+                            { data: 'id' },
+                            { data: 'name' },
+                            { data: 'street' },
+                            { data: 'suburb'},
+                            { data: 'state' },
+                            { data: 'pincode' },
+                            { data: 'phone' },
                         { data: 'actions', "orderable": false,  "searchable" :  false},
                     ],
                 });

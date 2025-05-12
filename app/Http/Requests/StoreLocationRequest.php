@@ -27,7 +27,14 @@ class StoreLocationRequest extends FormRequest
             'suburb' => 'required|max:30',
             "phone" => ['required', 'regex:/^(?:\+61|0)[2-478](?:[ -]?[0-9]){8}$/'],
             'state' => 'required|max:30',
-            'pincode' => 'required|max:30',
+            'pincode' => ['required', 'regex:/^(0[289][0-9]{2}|[1-9][0-9]{3})$/'],
         ];
     }
+
+	public function messages() : array
+	{
+		return [
+			'postcode.regex' => 'The postcode must be a valid Australian postcode.'
+		];
+	}
 }

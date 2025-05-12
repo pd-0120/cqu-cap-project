@@ -21,7 +21,9 @@ class TestController extends Controller
     public function index(Request $request) {
 		if ($request->ajax()) {
 			$model = PatientTest::query()->with('patient', 'assignedBy', 'test');
-
+			if($request->status) {
+				$model =	$model->where('status', $request->status);
+			}
 			$model = $model->where('patient_id', auth()->user()->id);
 
 			return DataTables::eloquent($model)
@@ -33,6 +35,17 @@ class TestController extends Controller
 				})
 				->editColumn('test_id', function ($data) {
 					return $data->test->name;
+				})
+				->editColumn('status', function ($data) {
+					$status = $data->status;
+					if($status == PatientTestStatus::PENDING->name) {
+						$status = '<span class="label font-weight-bold label-lg  label-light-warning label-inline">'. PatientTestStatus::PENDING->toString() .'</span>';
+					} elseif($status == PatientTestStatus::STARTED->name) {
+						$status = '<span class="label font-weight-bold label-lg  label-light-primary label-inline">'. PatientTestStatus::STARTED->toString() .'</span>';
+					} else {
+						$status = '<span class="label font-weight-bold label-lg  label-light-success label-inline">'. PatientTestStatus::COMPLETED->toString() .'</span>';
+					}
+					return $status;
 				})
 				->editColumn('assign_for_date', function ($data) {
 					return Carbon::parse($data->assign_for_date)->toDateString();
@@ -47,7 +60,7 @@ class TestController extends Controller
 				->addColumn('actions', function ($data) {
 					return view('patient.test.action', compact('data'))->render();
 				})
-				->rawColumns(['actions'])->make(true);
+				->rawColumns(['actions', 'status'])->make(true);
 		}
 		return view('patient.test.index');
 	}

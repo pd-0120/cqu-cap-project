@@ -41,7 +41,7 @@ class UpdatePatientDetailsRequest extends FormRequest
             "email" => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users')->ignore($this->_patient_id)],
             "emergency_contact" => ['required', 'max:25'],
             "emergency_phone" => ['required', 'regex:/^(?:\+61|0)[2-478](?:[ -]?[0-9]){8}$/'],
-            "medical_history" => ['sometimes', 'max:200'],
+            "medical_history" => ['sometimes', 'max:1000'],
         ];
     }
 

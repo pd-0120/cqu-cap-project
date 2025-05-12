@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enum\UserRolesEnum;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -48,8 +49,8 @@ class RegisteredUserController extends Controller
             'dob' => '1988-10-10'
         ]);
         UserDetail::create(['user_id' => $user->id]);
-        $user->assignRole('CareTaker');
-        
+        $user->assignRole(UserRolesEnum::CARETAKER->value);
+
         event(new Registered($user));
 
         Auth::login($user);

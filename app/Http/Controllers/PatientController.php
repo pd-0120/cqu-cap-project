@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRolesEnum;
 use App\Enum\UserStatusEnum;
 use App\Http\Requests\CreatePatientRequest;
 use App\Http\Requests\UpdatePatientDetailsRequest;
@@ -59,8 +60,9 @@ class PatientController extends Controller
     public function create()
     {
         $locations = Location::all();
+		$australianStates = config('app.states');
 
-        return view('caretaker.patient.create', compact('locations'));
+        return view('caretaker.patient.create', compact('locations', 'australianStates'));
     }
 
     /**
@@ -82,7 +84,7 @@ class PatientController extends Controller
             'secret_password' => $encryptedPassword
         ]);
 
-        $user->assignRole('Patient');
+        $user->assignRole(UserRolesEnum::PATIENT->value);
         UserDetail::create([
             'user_id' => $user->id,
             'phone' => $request->phone,
@@ -118,9 +120,10 @@ class PatientController extends Controller
     {
         $userDetail = $patient->userDetail;
         $locations = Location::all();
+		$australianStates = config('app.states');
 
         if ($patient->caretaker_id == Auth::user()->id) {
-            return view('caretaker.patient.edit', compact('patient', 'userDetail', 'locations'));
+            return view('caretaker.patient.edit', compact('patient', 'userDetail', 'locations', 'australianStates'));
         } else {
             Session::flash('message.level', 'warning');
             Session::flash('message.content', 'You do not have permission to edit this user.');

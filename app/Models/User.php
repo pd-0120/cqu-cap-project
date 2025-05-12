@@ -89,4 +89,10 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->userDetail()->delete();
         return parent::delete();
     }
+
+	public function hasRole($role): bool
+    {
+        return $this->role === $role;
+	}
+
 }

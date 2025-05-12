@@ -1,6 +1,7 @@
 @section('pageTitle', "All Assigned Tests")
 @section('pageActionData')
 @endsection
+
 <x-auth-layout>
     @session('message.level')
         <x-alert-component />
@@ -44,7 +45,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('patient.tests.index') }}",
+                        url: "{{ route('patient.tests.index', ['status' => request()->has('status') ? request()->get('status') : ""]) }}",
                         type: 'GET',
                     },
                     columns: [

@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Location;
+use App\Models\PatientTest;
 use App\Models\Test;
 use App\Models\User;
 use Closure;
@@ -15,16 +16,19 @@ class CareTakerDashboardComponent extends Component
     /**
      * Create a new component instance.
      */
-    public $totalAssingnedPatients;
+    public $totalAssignedPatients;
     public $totalTests;
-    public $totalLocations;
+	public $totalLocations;
+	public $totalAssignedTests;
     public function __construct()
     {
         $user = Auth::user();
 
-        $this->totalAssingnedPatients = User::where("caretaker_id", $user->id)->count();
+        $this->totalAssignedPatients = User::where("caretaker_id", $user->id)->count();
         $this->totalTests = Test::where('created_by', $user->id)->count();
         $this->totalLocations = Location::where('created_by', $user->id)->count();
+		$this->totalAssignedTests = PatientTest::whereAssignedBy($user->id)->count();
+
     }
 
     /**

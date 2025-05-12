@@ -85,6 +85,4 @@ class PatientTestResultController extends Controller
         }
         return Blade::render('patient.test.pre-test-result', compact('test', 'testStatus', 'testMode', 'testKey'));
     }
-
-
 }

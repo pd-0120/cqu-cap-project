@@ -16,16 +16,7 @@ class LocationFactory extends Factory
      */
     public function definition(): array
     {
-        $australianStates = [
-            'New South Wales',
-            'Victoria',
-            'Queensland',
-            'Western Australia',
-            'South Australia',
-            'Tasmania',
-            'Australian Capital Territory',
-            'Northern Territory'
-        ];
+        $australianStates = config('app.states');
 
         return [
             'name' => fake('en_AU')->company,
@@ -33,7 +24,7 @@ class LocationFactory extends Factory
             'suburb' => fake('en_AU')->city,
             'state' => fake('en_AU')->randomElement($australianStates),
             'pincode' => fake('en_AU')->postcode,
-            'phone' => fake('en_AU')->phoneNumber,
+            'phone' => str(fake('en_AU')->phoneNumber)->remove(['+', '(', ')', ' ', '.', '-']),
             'created_by' => 1,
         ];
     }
