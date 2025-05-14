@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CognifitCognitiveAssessmentList;
+use App\Models\CognitiveSkillsList;
 use Illuminate\Http\Request;
 
 class CognitiveSkillsListController extends Controller
@@ -10,7 +11,7 @@ class CognitiveSkillsListController extends Controller
     public function getAvailableAssessments(Request $request)
     {
         $assessments = CognifitCognitiveAssessmentList::paginate(8);
-     
+
         return view('caretaker.assessment.index', compact('assessments'));
     }
 

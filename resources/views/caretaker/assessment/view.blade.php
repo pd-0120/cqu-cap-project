@@ -1,6 +1,7 @@
 @section('pageTitle', "Assessment Details")
 @section('pageActionData')
-    <a href="{{ route('caretaker.assessments.available-assessments') }}" class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Back to List</a>
+    <a href="{{ route('caretaker.assessments.available-assessments') }}"
+        class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Back to List</a>
 @endsection
 <x-auth-layout>
     @session('message.level')
@@ -158,4 +159,46 @@
             </div>
         </div>
     </div>
+
+    @if($assessment->getSkills->count() > 0)
+        <div class="row">
+            <div class="col-md-12 mb-5">
+                <span class="text-dark font-weight-bold h3 ">Associated Skills with Assessment</span>
+            </div>
+            @foreach ($assessment->getSkills as $assessmentSkill)
+            @php
+                $skill = $assessmentSkill->skill;
+            @endphp
+            @if($skill)
+                <div class="col-md-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="flex-shrink-0 mr-7">
+                                    <div class="symbol symbol-50 symbol-lg-120">
+                                        <img alt="Pic" src="{{ $skill->image }}" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
+                                        <div class="mr-3">
+                                            <a href="#"
+                                                class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">{{ $skill->title }}</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center flex-wrap justify-content-between">
+                                        <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">
+                                            {!! $skill->description !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @endforeach
+        </div>
+    @endif
 </x-auth-layout>
