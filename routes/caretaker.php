@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CognitiveSkillsListController;
 use App\Http\Controllers\CongnitiveFitController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PatientController;
@@ -22,6 +23,9 @@ Route::name('tests.')->prefix('tests/')->group(function() {
     Route::get('get-test-score/{test}', [PatientTestResultController::class, 'getResult'])->name('get-result');
 });
 
-
+Route::name('assessments.')->prefix('assessments/')->group(function(){
+    Route::get('available-assessments', [CognitiveSkillsListController::class, 'getAvailableAssessments'])->name('available-assessments');
+    Route::get('available-assessments/view/{assessment}', [CognitiveSkillsListController::class, 'viewAssessmentTask'])->name('view-available-assessments');
+});
 Route::get('delete-cognifit-account', action: [ CongnitiveFitController::class, 'deleteAllCognifitAccounts']);
 

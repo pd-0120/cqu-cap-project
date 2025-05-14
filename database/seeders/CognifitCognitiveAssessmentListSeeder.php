@@ -38,7 +38,7 @@ class CognifitCognitiveAssessmentListSeeder extends Seeder
     {
         try {
             $assessments = $products->getAssessments($this->localesForAssets);
-
+            
             foreach ($assessments as $key => $assessment) {
                 $tasks = $assessment->getTasks();
                 $skills = $assessment->getSkills();

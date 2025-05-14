@@ -17,4 +17,8 @@ class CongnifitAssessmentListSkills extends Model
     public function CognifitCognitiveAssessment() {
         return $this->belongsTo(CognifitCognitiveAssessmentList::class, 'assessment_list_id', 'id');
     }
+
+    public function skill() {
+        return $this->belongsTo(CognitiveSkillsList::class, 'name', 'title');
+    }
 }

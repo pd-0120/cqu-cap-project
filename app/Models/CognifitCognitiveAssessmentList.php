@@ -18,4 +18,12 @@ class CognifitCognitiveAssessmentList extends Model
         'response_data',
         'type',
     ];
+
+    public function getTasks() {
+        return $this->hasMany(CognifitAssessmentListTasks::class, 'assessment_list_id', 'id');
+    }
+
+    public function getSkills() {
+        return $this->hasMany(CongnifitAssessmentListSkills::class, 'assessment_list_id', 'id');
+    }
 }

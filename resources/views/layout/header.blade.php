@@ -44,6 +44,12 @@
 							<i class="menu-arrow"></i>
 						</a>
 					</li>
+					<li class="menu-item  ">
+						<a href="{{ route('caretaker.assessments.available-assessments') }}" class="menu-link">
+							<span class="menu-text">All Available Assessments</span>
+							<i class="menu-arrow"></i>
+						</a>
+					</li>
 					<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 						<a href="javascript:;" class="menu-link menu-toggle">
 							<span class="menu-text">Tests</span>
