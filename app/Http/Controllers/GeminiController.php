@@ -18,4 +18,12 @@ class GeminiController extends Controller
 
 		return $result->text();
 	}
+
+	public function  getAiSummeryForAssessment(CognifitCognitiveAssessmentList $assessment) {
+		$description = $assessment->description;
+
+		$result = Gemini::generativeModel(model: 'gemini-2.0-flash')->generateContent("Give me a short description for this Cognitive Assessment: $description");
+
+		return $result->text();
+	}
 }

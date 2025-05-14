@@ -1,7 +1,7 @@
 @section('pageTitle', "Assessment Details")
 @section('pageActionData')
-    <a href="{{ route('caretaker.assessments.available-assessments') }}"
-        class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Back to List</a>
+	<a href="{{ route('caretaker.assessments.available-assessments') }}" class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 mr-5 my-1" >Back to List</a>
+	<button class="btn btn-fixed-height btn-success font-weight-bolder font-size-sm px-5 my-1" id="ai-explnt-btn"><span>Get AI Explanation For This Assessment</span></button>
 @endsection
 <x-auth-layout>
     @session('message.level')
@@ -201,4 +201,45 @@
             @endforeach
         </div>
     @endif
+	<div class="modal fade" id="aiExplanationModel" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="aiExplanationModelLabel">AI Explanation For The Assessment</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<i aria-hidden="true" class="ki ki-close"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	@push('UserJS')
+		<script>
+			$(document).ready(function () {
+				$("#ai-explnt-btn").click(function () {
+					$("#ai-explnt-btn span").text("Generating...");
+					$("#ai-explnt-btn").prop('disabled', true);
+
+					axios
+						.get('{{ route('caretaker.assessments.get-ai-summery-for-assessments', $assessment)  }}')
+						.then(function(response) {
+							const aiResponse = response.data;
+							$('#aiExplanationModel .modal-body').html(`<p>${aiResponse}</p>`);
+							$('#aiExplanationModel').modal('show');
+
+							$("#ai-explnt-btn span").text("Get AI Explanation For This Assessment");
+							$("#ai-explnt-btn").prop('disabled', false);
+					})
+				});
+			});
+		</script>
+	@endpush
 </x-auth-layout>
