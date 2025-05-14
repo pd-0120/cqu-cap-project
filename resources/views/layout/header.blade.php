@@ -71,6 +71,14 @@
 						</div>
 					</li>
 					@endhasrole
+					@hasrole('Admin')
+					<li class="menu-item">
+						<a href="{{ route('admin.activity-log') }}" class="menu-link">
+							<span class="menu-text">All Activities</span>
+							<i class="menu-arrow"></i>
+						</a>
+					</li>
+					@endhasrole
 				</ul>
 				<!--end::Header Nav-->
 			</div>

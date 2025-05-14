@@ -24,7 +24,7 @@ class Location extends Model
         'updated_by',
      ];
 
-     public function getActivitylogOptions(): LogOptions
+	public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
     }

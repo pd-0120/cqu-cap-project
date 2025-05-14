@@ -10,7 +10,7 @@ use Spatie\Activitylog\LogOptions;
 class PatientTest extends Model
 {
     use HasFactory;
-
+	use LogsActivity;
 
     protected $fillable = [
         'patient_id',

@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class CognitiveSkillsList extends Model
 {
     use HasFactory;
+	use LogsActivity;
 
     protected $fillable = [
         'key',
@@ -16,7 +19,10 @@ class CognitiveSkillsList extends Model
         'image',
         'response_data',
     ];
-
+	public function getActivitylogOptions(): LogOptions
+	{
+		return LogOptions::defaults();
+	}
     public function skills() {
         return $this->hasMany(CongnifitAssessmentListSkills::class, 'assessment_list_id', 'id');
     }
