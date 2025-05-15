@@ -75,8 +75,8 @@ class CreateTestComponent extends Component
 
 
     #[Computed]
-    public function getAssessmentList()
-    {
+    public function getAssessmentList(): array
+	{
         return CognifitCognitiveAssessmentList::get()->toArray();
     }
 
