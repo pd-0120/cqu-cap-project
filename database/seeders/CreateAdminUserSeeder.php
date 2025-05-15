@@ -59,8 +59,5 @@ class CreateAdminUserSeeder extends Seeder
 				'status' => UserStatusEnum::ACTIVE->value,
 			]);
 		}
-
-		
-
     }
 }

@@ -15,8 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
         $this->call(CreateAdminUserSeeder::class);
-                $this->call(CognitiveSkillsListsSeeder::class);
-                $this->call(CognifitCognitiveAssessmentListSeeder::class);
-                \App\Models\Location::factory(20)->create();
-    }
+		$this->call(CognitiveSkillsListsSeeder::class);
+		$this->call(CognifitCognitiveAssessmentListSeeder::class);
+		\App\Models\Location::factory(40)->create();
+
+		if(config('app.env') === 'local') {
+			$this->call(FakeDataSeeder::class);
+		}
+	}
 }
