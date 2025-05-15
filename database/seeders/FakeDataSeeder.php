@@ -68,7 +68,7 @@ class FakeDataSeeder extends Seeder
 		// Wrap in transaction for speed & safety
 		DB::transaction(function () use (&$users, $faker, $roleId, $now, &$userDetails) {
 			// Insert users in bulk
-			User::insert($users);
+			DB::table('users')->insert($users);
 
 			// Fetch the inserted users
 			$insertedUsers = User::latest('id')->take(count($users))->get();
