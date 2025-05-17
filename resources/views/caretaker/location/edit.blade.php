@@ -1,6 +1,6 @@
 @section('pageTitle', "Update $location->name")
 @section('pageActionData')
-    <a href="{{ route('caretaker.location.index') }}"
+    <a href="{{ route('admin.location.index') }}"
         class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">location List</a>
 
 @endsection
@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card card-custom card-stretch gutter-b">
-                <form action="{{ route('caretaker.location.update', $location->id) }}" method="POST">
+                <form action="{{ route('admin.location.update', $location->id) }}" method="POST">
                     <input type="hidden" name="_method" value="PUT">
                     @csrf
                     <div class="card-body pt-7">

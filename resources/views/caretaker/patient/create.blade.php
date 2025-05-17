@@ -1,6 +1,6 @@
 @section('pageTitle', "Add New Patient")
 @section('pageActionData')
-    <a href="{{ route('caretaker.patient.index') }}"
+    <a href="{{ route('admin.patient.index') }}"
         class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Patient List</a>
 
 @endsection
@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card card-custom card-stretch gutter-b">
-                <form action="{{ route('caretaker.patient.store') }}" method="POST">
+                <form action="{{ route('admin.patient.store') }}" method="POST">
                     @csrf
                     <div class="card-body pt-7">
                         <div class="row">

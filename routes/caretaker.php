@@ -9,10 +9,8 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\GeminiController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource("patient", PatientController::class);
-Route::resource("location", LocationController::class);
 Route::resource("tests", TestController::class);
-
+Route::get('patients/assign-patients', [PatientController::class, 'assignPatients'])->name('patients.assign-patients');
 Route::name('tests.')->prefix('tests/')->group(function() {
     Route::get("assign-test/index", [TestController::class, 'assignTestIndex'])->name('assignTestIndex');
     Route::get("assign-test/{patient}", [TestController::class, 'assignTest'])->name('assignTest');

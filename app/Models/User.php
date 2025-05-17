@@ -84,6 +84,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserDetail::class);
     }
 
+	public function caretaker()
+	{
+		return $this->belongsTo(User::class, 'caretaker_id', 'id');
+	}
+
     public function delete()
     {
         $this->userDetail()->delete();

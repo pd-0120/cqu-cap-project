@@ -28,7 +28,7 @@
 						<div class="card-body">
 							<div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
 								<div class="d-flex flex-column mr-5">
-									<a href="{{ route('caretaker.location.index') }}" class="h4 text-dark text-hover-primary mb-5">
+									<a href="" class="h4 text-dark text-hover-primary mb-5">
 										Total House Assigned
 									</a>
 									<p class="text-dark-50 text-dark h5">
@@ -36,7 +36,7 @@
 									</p>
 								</div>
 								<div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-									<a href="{{ route('caretaker.location.index') }}" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
+									<a href="" class="btn font-weight-bolder text-uppercase btn-primary py-4 px-6">
 										Take Me There !
 									</a>
 								</div>
@@ -50,7 +50,7 @@
 						<div class="card-body">
 							<div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
 								<div class="d-flex flex-column mr-5">
-									<a href="{{ route('caretaker.patient.index') }}" class="h4 text-dark text-hover-warning mb-5">
+									<a href="{{ route('caretaker.patients.assign-patients')  }}" class="h4 text-dark text-hover-warning mb-5">
 										Total Allocated Patients
 									</a>
 									<p class="text-dark-50 text-dark h5">
@@ -58,7 +58,7 @@
 									</p>
 								</div>
 								<div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
-									<a href="{{ route('caretaker.patient.index') }}" target="_blank" class="btn font-weight-bolder text-uppercase btn-warning py-4 px-6">
+									<a href="{{ route('caretaker.patients.assign-patients')  }}" target="_blank" class="btn font-weight-bolder text-uppercase btn-warning py-4 px-6">
 										Take Me There !
 									</a>
 								</div>

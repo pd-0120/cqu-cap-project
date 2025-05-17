@@ -1,6 +1,6 @@
 @section('pageTitle', "All Locations")
 @section('pageActionData')
-    <a href="{{ route('caretaker.location.create') }}"
+    <a href="{{ route('admin.location.create') }}"
         class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Add New Location</a>
 
 @endsection
@@ -45,7 +45,7 @@
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "{{ route('caretaker.location.index') }}",
+                            url: "{{ route('admin.location.index') }}",
                             type: 'GET',
                         },
                         columns: [

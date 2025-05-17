@@ -1,7 +1,4 @@
-@section('pageTitle', "All Patients")
-@section('pageActionData')
-    <a href="{{ route('admin.patient.create') }}" class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Add New Patient</a>
-@endsection
+@section('pageTitle', "All Assign Patients")
 <x-auth-layout>
     @session('message.level')
         <x-alert-component />
@@ -21,8 +18,7 @@
                                         <th scope="col">Status</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Phone</th>
-										<th scope="col">Care Home Address</th>
-										<th scope="col">Assign CareTaker</th>
+                                        <th scope="col">Care Home Address</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -44,7 +40,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('admin.patient.index') }}",
+                        url: "{{ route('caretaker.patients.assign-patients') }}",
                         type: 'GET',
                     },
                     columns: [
@@ -54,8 +50,7 @@
                         { data: 'user_detail.status' , "orderable": false, "searchable" :  false},
                         { data: 'email' },
                         { data: 'user_detail.phone', "orderable": false, "searchable" :  false},
-						{ data: 'user_detail.street', "orderable": false,  "searchable" :  false},
-						{ data: 'caretaker_id'},
+                        { data: 'user_detail.street', "orderable": false,  "searchable" :  false},
                         { data: 'actions', "orderable": false,  "searchable" :  false},
                     ],
                 });
