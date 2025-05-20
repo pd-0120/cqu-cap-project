@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Http\Controllers\CongnitiveFitController;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
     use LogsActivity;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -57,6 +56,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    /**
+     * Automatically called after a user is created.
+     */
     protected static function booted(): void
     {
         static::created(function (User $user) {
@@ -64,35 +66,45 @@ class User extends Authenticatable implements MustVerifyEmail
             $congnifit->addUser($user);
         });
     }
+
+    /**
+     * Configure activity log options.
+     */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
     }
 
+    /**
+     * Get the user's full name.
+     */
     public function getFullNameAttribute()
     {
         return $this->first_name . " " . $this->last_name;
     }
 
-    public function getRoleAttribute()
+    /**
+     * Optional: Get the user's first assigned role name.
+     */
+    public function getPrimaryRoleAttribute()
     {
-        return $this->roles ? $this->roles[0]->name : "";
+        return $this->roles->pluck('name')->first();
     }
 
+    /**
+     * Relation to user details.
+     */
     public function userDetail()
     {
         return $this->hasOne(UserDetail::class);
     }
 
+    /**
+     * Delete user and related user details.
+     */
     public function delete()
     {
         $this->userDetail()->delete();
         return parent::delete();
     }
-
-	public function hasRole($role): bool
-    {
-        return $this->role === $role;
-	}
-
 }

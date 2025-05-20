@@ -27,16 +27,17 @@
                     <td>{{ $caretaker->is_approved ? 'Yes' : 'No' }}</td>
                     <td>
                         @if(!$caretaker->is_approved)
-                            <form action="{{ route('admin.approveCaretaker', $caretaker->id) }}" method="POST">
-                                @csrf
-                                <button type="submit">Approve</button>
-                            </form>
-                        @else
-                            <form action="{{ route('admin.rejectCaretaker', $caretaker->id) }}" method="POST">
-                                @csrf
-                                <button type="submit">Reject</button>
-                            </form>
-                        @endif
+    <form action="{{ route('admin.caretakers.approve', $caretaker->id) }}" method="POST">
+        @csrf
+        <button type="submit">Approve</button>
+    </form>
+@else
+    <form action="{{ route('admin.caretakers.decline', $caretaker->id) }}" method="POST">
+        @csrf
+        <button type="submit">Reject</button>
+    </form>
+@endif
+
                     </td>
                 </tr>
             @empty
