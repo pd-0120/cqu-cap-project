@@ -1,6 +1,6 @@
 @section('pageTitle', "Update $patient->full_name")
 @section('pageActionData')
-    <a href="{{ route('caretaker.patient.index') }}"
+    <a href="{{ route('admin.patient.index') }}"
         class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">Patient List</a>
 
 @endsection
@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card card-custom card-stretch gutter-b">
-                <form action="{{ route('caretaker.patient.update', $patient->id) }}" method="POST">
+                <form action="{{ route('admin.patient.update', $patient->id) }}" method="POST">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="_patient_id" value="{{ $patient->id }}">
                     @csrf

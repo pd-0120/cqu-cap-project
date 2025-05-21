@@ -6,6 +6,8 @@ use App\Enum\UserRolesEnum;
 use App\Enum\UserStatusEnum;
 use App\Http\Requests\CreatePatientRequest;
 use App\Http\Requests\UpdatePatientDetailsRequest;
+use App\Mail\CaretakerAssignEmailToPatient;
+use App\Mail\PatientAssignEmailToCareTaker;
 use App\Mail\SendPasswordToPatientEmail;
 use App\Models\Location;
 use App\Models\User;
@@ -29,9 +31,8 @@ class PatientController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $model = User::query()->with('userDetail');
-            $model = $model->where('caretaker_id', Auth::user()->id);
-
+            $model = User::query()->with('userDetail', 'caretaker', 'roles');
+			$model = $model->role(UserRolesEnum::PATIENT->name);
             return DataTables::eloquent($model)
                 ->editColumn('user_detail.status', function ($data) {
                     $status = $data->userDetail->status;
@@ -45,6 +46,9 @@ class PatientController extends Controller
                     }
                     return $status;
                 })
+				->editColumn('caretaker_id', function ($data) {
+					return $data->caretaker ? $data->caretaker->full_name : null;
+				})
                 ->addColumn('actions', function ($data) {
                     return view('caretaker.patient.action', compact('data'))->render();
                 })
@@ -80,8 +84,9 @@ class PatientController extends Controller
             'email' => $request->email,
             'email_verified_at' => now(),
             'password' => Hash::make($password),
-            'caretaker_id' => Auth::user()->id,
-            'secret_password' => $encryptedPassword
+//            'caretaker_id' => Auth::user()->id,
+            'secret_password' => $encryptedPassword,
+			'cognifit_user_token' => env('COGNI_FIT_USER_TOKEN', null)
         ]);
 
         $user->assignRole(UserRolesEnum::PATIENT->value);
@@ -102,7 +107,7 @@ class PatientController extends Controller
         Session::flash('message.level', 'success');
         Session::flash('message.content', 'Patient added successfully.');
 
-        return redirect()->route('caretaker.patient.index');
+        return redirect()->route('admin.patient.index');
     }
 
     /**
@@ -122,14 +127,7 @@ class PatientController extends Controller
         $locations = Location::all();
 		$australianStates = config('app.states');
 
-        if ($patient->caretaker_id == Auth::user()->id) {
-            return view('caretaker.patient.edit', compact('patient', 'userDetail', 'locations', 'australianStates'));
-        } else {
-            Session::flash('message.level', 'warning');
-            Session::flash('message.content', 'You do not have permission to edit this user.');
-
-            return redirect()->route('caretaker.patient.index');
-        }
+		return view('caretaker.patient.edit', compact('patient', 'userDetail', 'locations', 'australianStates'));
     }
 
     /**
@@ -168,10 +166,57 @@ class PatientController extends Controller
     public function destroy(User $patient)
     {
         $patient->delete();
-
         Session::flash('message.level', 'success');
         Session::flash('message.content', 'Patient deleted successfully.');
 
-        return redirect()->route('caretaker.patient.index');
+        return redirect()->route('admin.patient.index');
     }
+
+	public function  assignPatients(Request $request)
+	{
+		if ($request->ajax()) {
+			$model = User::query()->with('userDetail');
+			$model = $model->whereCaretakerId(auth()->user()->id);
+
+			return DataTables::eloquent($model)
+				->editColumn('user_detail.status', function ($data) {
+					$status = $data->userDetail->status;
+
+					if($status == UserStatusEnum::ACTIVE->value) {
+						$status = '<span class="label font-weight-bold label-lg  label-light-success label-inline">'. UserStatusEnum::ACTIVE->toString() .'</span>';
+					} elseif($status == UserStatusEnum::INACTIVE->value) {
+						$status = '<span class="label font-weight-bold label-lg  label-light-primary label-inline">'. UserStatusEnum::INACTIVE->toString() .'</span>';
+					} else {
+						$status = '<span class="label font-weight-bold label-lg  label-light-danger label-inline">'. UserStatusEnum::DECEASED->toString() .'</span>';
+					}
+					return $status;
+				})
+				->addColumn('actions', function ($data) {
+					return view('caretaker.patient.assign-patient-action', compact('data'))->render();
+				})
+				->rawColumns(['actions', 'user_detail.status'])->make(true);
+		}
+
+		return view('caretaker.patient.assign-patients');
+	}
+
+	public function assignCaretaker(User $patient) {
+		$caretakers = User::select('id', 'first_name', 'last_name', 'email')->role(UserRolesEnum::CARETAKER->name)->get();
+
+		return view('patient.assign-caretaker', compact('patient', 'caretakers'));
+	}
+
+	public function storeAssignCaretaker(Request $request, User $patient) {
+		$patient->caretaker_id = $request->caretaker_id;
+		$patient->save();
+
+		$caretaker = User::find($request->caretaker_id);
+
+		Mail::to($caretaker->email)->send(new PatientAssignEmailToCareTaker($patient, $caretaker));
+		Mail::to($patient->email)->send(new CaretakerAssignEmailToPatient($patient, $caretaker));
+
+		Session::flash('message.level', 'success');
+		Session::flash('message.content', 'Care taker assigned successfully.');
+		return redirect()->route('admin.patient.index');
+	}
 }

@@ -1,16 +1,16 @@
 <?php
 
+use App\Http\Controllers\CognitiveSkillsListController;
 use App\Http\Controllers\CongnitiveFitController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PatientTestResultController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\GeminiController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource("patient", PatientController::class);
-Route::resource("location", LocationController::class);
 Route::resource("tests", TestController::class);
-
+Route::get('patients/assign-patients', [PatientController::class, 'assignPatients'])->name('patients.assign-patients');
 Route::name('tests.')->prefix('tests/')->group(function() {
     Route::get("assign-test/index", [TestController::class, 'assignTestIndex'])->name('assignTestIndex');
     Route::get("assign-test/{patient}", [TestController::class, 'assignTest'])->name('assignTest');
@@ -22,6 +22,10 @@ Route::name('tests.')->prefix('tests/')->group(function() {
     Route::get('get-test-score/{test}', [PatientTestResultController::class, 'getResult'])->name('get-result');
 });
 
-
+Route::name('assessments.')->prefix('assessments/')->group(function(){
+    Route::get('available-assessments', [CognitiveSkillsListController::class, 'getAvailableAssessments'])->name('available-assessments');
+    Route::get('available-assessments/view/{assessment}', [CognitiveSkillsListController::class, 'viewAssessmentTask'])->name('view-available-assessments');
+	Route::get('get-ai-summery-for-assessment/{assessment}',[GeminiController::class, 'getAiSummeryForAssessment'])->name('get-ai-summery-for-assessments');
+});
 Route::get('delete-cognifit-account', action: [ CongnitiveFitController::class, 'deleteAllCognifitAccounts']);
 

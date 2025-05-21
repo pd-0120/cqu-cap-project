@@ -23,24 +23,14 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-   public function store(LoginRequest $request): RedirectResponse
-{
-    $request->authenticate(); // This logs the user in
+    public function store(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
 
-    // Check if the logged-in user is a caretaker and not approved
-    if (auth()->user()->hasRole('Caretaker') && !auth()->user()->is_approved) {
-        Auth::logout(); // Logout the user
+        $request->session()->regenerate();
 
-        return back()->withErrors([
-            'email' => 'Your account is not yet approved by the admin.',
-        ]);
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
-
-    $request->session()->regenerate();
-
-    return redirect()->intended(RouteServiceProvider::HOME);
-}
-
 
     /**
      * Destroy an authenticated session.

@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\CaretakerApprovedNotification;
-use App\Notifications\NewCaretakerRegistrationNotification;
 
 class RegisteredUserController extends Controller
 {
@@ -34,35 +31,30 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-   public function store(Request $request): RedirectResponse
-{
-    $request->validate([
-        'first_name' => ['required', 'string', 'max:255'],
-        'last_name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-        'password' => ['required', 'confirmed', Rules\Password::min(8)->mixedCase()->numbers()->symbols()],
-    ]);
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::min(8)->mixedCase()->numbers()->symbols()],
+        ]);
 
-    $user = User::create([
-        'first_name' => $request->first_name,
-        'last_name' => $request->last_name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'secret_password' => Crypt::encrypt($request->password),
-        'dob' => '1988-10-10',
-        'is_approved' => false, // 🚫 Not approved by default
-    ]);
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'secret_password' => Crypt::encrypt($request->password),
+            'dob' => '1988-10-10'
+        ]);
+        UserDetail::create(['user_id' => $user->id]);
+        $user->assignRole(UserRolesEnum::CARETAKER->value);
 
-    UserDetail::create(['user_id' => $user->id]);
+        event(new Registered($user));
 
-    // Assign Caretaker role
-    $user->assignRole(UserRolesEnum::CARETAKER->value);
+        Auth::login($user);
 
-    // 📩 Notify admin of new registration (assuming notification set up)
-    Notification::route('mail', config('mail.admin_email'))
-    ->notify(new NewCaretakerRegistrationNotification($user));
-
-    // ✅ Show user a message
-    return redirect()->route('login')->with('status', 'Registration successful. Please wait for admin approval.');
-}
+        return redirect(RouteServiceProvider::HOME);
+    }
 }

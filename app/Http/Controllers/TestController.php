@@ -92,6 +92,13 @@ class TestController extends Controller
 
 	public function assignTest(User $patient)
 	{
+		if($patient->caretaker_id !== auth()->user()->id) {
+			Session::flash('message.level', 'warning');
+			Session::flash('message.content', 'Can not able to assign test to this Patient.');
+
+			return redirect()->route('caretaker.patients.assign-patients');
+		}
+
 		$tests = Test::where('created_by', auth()->user()->id)->get();
 
 		return view('caretaker.test.assign-test', compact('patient', 'tests'));

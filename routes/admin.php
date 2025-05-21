@@ -1,13 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\ActivityController;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\LocationController;
 
-// Show pending caretakers list
-Route::get('/caretakers/pending', [AdminController::class, 'pendingCaretakers'])->name('admin.pendingCaretakers');
-
-// Approve caretaker
-Route::post('/caretakers/{id}/approve', [AdminController::class, 'approveCaretaker'])->name('admin.approveCaretaker');
-
-// Decline caretaker
-Route::post('/caretakers/{id}/reject', [AdminController::class, 'declineCaretaker'])->name('admin.declineCaretaker');
+Route::get('activity-log', [ActivityController::class, 'index'])->name('activity-log');
+Route::resource("patient", PatientController::class);
+Route::get('patient/assign-caretaker/{patient}', [PatientController::class, 'assignCaretaker'])->name('patient.assign-caretaker');
+Route::post('patient/assign-caretaker/{patient}', [PatientController::class, 'storeAssignCaretaker'])->name('patient.store-assign-caretaker');
+Route::resource("location", LocationController::class);

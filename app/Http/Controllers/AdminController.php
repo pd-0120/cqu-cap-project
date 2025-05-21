@@ -4,23 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Notifications\CaretakerApprovedNotification;
-use App\Mail\CaretakerDeclined;
-use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
     /**
-     * Show only unapproved caretakers
+     * Show a list of caretakers for approval.
      */
-    public function pendingCaretakers()
+    public function showCaretakers()
     {
-        $caretakers = User::role('Caretaker')->where('is_approved', false)->get();
-        return view('admin.pending-caretakers', compact('caretakers'));
+        $caretakers = User::where('role', 'Caretaker')->get();
+        return view('admin.caretakers.index', compact('caretakers'));
     }
 
     /**
-     * Approve a caretaker
+     * Approve a caretaker by setting is_approved to true.
      */
     public function approveCaretaker($id)
     {
@@ -28,20 +25,18 @@ class AdminController extends Controller
         $user->is_approved = true;
         $user->save();
 
-        $user->notify(new CaretakerApprovedNotification());
-
-        return back()->with('success', 'Caretaker approved.');
+        return redirect()->back()->with('success', 'Caretaker approved successfully!');
     }
 
     /**
-     * Decline a caretaker
+     * Reject a caretaker by setting is_approved to false.
      */
-    public function declineCaretaker($id)
+    public function rejectCaretaker($id)
     {
         $user = User::findOrFail($id);
-        Mail::to($user->email)->send(new CaretakerDeclined($user->first_name));
-        $user->delete();
+        $user->is_approved = false;
+        $user->save();
 
-        return back()->with('error', 'Caretaker declined and removed.');
+        return redirect()->back()->with('success', 'Caretaker rejected successfully!');
     }
 }

@@ -29,9 +29,7 @@ class PatientTakenTestCountChart extends Component
 
 		$this->data = collect($this->last30Days)->map(function ($date) use ($testCounts) {
 			return  $testCounts[$date] ?? 0;
-			return rand(0, 200);
 		})->toArray();
-
     }
 
     /**

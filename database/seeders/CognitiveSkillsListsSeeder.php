@@ -16,12 +16,11 @@ class CognitiveSkillsListsSeeder extends Seeder
     {
         CognitiveSkillsList::truncate();
 
-
-
         try {
             $localesForAssets   = ['en'];
-            $product  = new Skills(env('COGNI_FIT_CLIENT_ID'));
+            $product  = new Skills(env('COGNI_FIT_CLIENT_ID', true));
             $skills = $product->getSkills($localesForAssets);
+
             foreach ($skills as $skillKey => $skillValue) {
                 $titles = collect($skillValue->getAssets())['titles']['en'];
                 $descriptions = collect($skillValue->getAssets())['descriptions']['en'];

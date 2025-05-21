@@ -18,7 +18,7 @@ class LocationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $model = Location::query()->where('created_by', Auth::user()->id);
+            $model = Location::query();
 
             return DataTables::eloquent($model)->addColumn('actions', function ($data) {
                 return view('caretaker.location.action', compact('data'))->render();
@@ -54,7 +54,7 @@ class LocationController extends Controller
         Session::flash('message.level', 'success');
         Session::flash('message.content', 'Location added successfully.');
 
-        return redirect()->route('caretaker.location.index');
+        return redirect()->route('admin.location.index');
     }
 
     /**
@@ -92,7 +92,7 @@ class LocationController extends Controller
         Session::flash('message.level', 'success');
         Session::flash('message.content', 'Location updated successfully.');
 
-        return redirect()->route('caretaker.location.index');
+        return redirect()->route('admin.location.index');
     }
 
     /**

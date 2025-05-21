@@ -1,7 +1,7 @@
-<form action='{{ route('caretaker.location.destroy', $data->id) }}' method='POST'>
+<form action='{{ route('admin.location.destroy', $data->id) }}' method='POST'>
     <input type="hidden" name="_method" value="DELETE">
 
-    <a href='{{ route("caretaker.location.edit", $data->id) }}' class='btn m-2 btn-icon btn-sm btn-light-primary' data-toggle="tooltip" data-placement="right" title="Edit location detains">
+    <a href='{{ route("admin.location.edit", $data->id) }}' class='btn m-2 btn-icon btn-sm btn-light-primary' data-toggle="tooltip" data-placement="right" title="Edit location detains">
         <i class="far fa-edit"></i>
     </a>
     @csrf
