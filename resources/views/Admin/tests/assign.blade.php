@@ -24,6 +24,7 @@
                                         <th>Taken Date</th>
                                         <th>Status</th>
                                         <th>Score</th>
+                                        <th>View Result</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -53,6 +54,7 @@
                     { data: 'taken_date', orderable: false, searchable: false },
                     { data: 'status', orderable: false, searchable: false },
                     { data: 'score', orderable: false, searchable: false },
+                    { data: 'action', orderable: false, searchable: false },
                 ],
                 language: {
                     emptyTable: "No caretakers found."

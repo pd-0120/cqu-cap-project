@@ -19,7 +19,7 @@
 								Current Test Score: {{ $patientTestResult->score  }}/800
 							</a>
 							<p class="text-dark-50">
-								Your current Cognitive Age: <b>{{ $patientTestResult['cognitive_age']  }}</b>
+								Current Cognitive Age is: <b>{{ $patientTestResult['cognitive_age']  }}</b>
 							</p>
 						</div>
 						<div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">

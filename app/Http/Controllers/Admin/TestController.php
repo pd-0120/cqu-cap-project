@@ -10,6 +10,7 @@ use App\Models\Test;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Session;
 class TestController extends Controller
 {
     public function index(Request $request)
@@ -79,14 +80,27 @@ class TestController extends Controller
 				->editColumn('due_date', function ($data) {
 					return Carbon::parse($data->due_date)->toDateString();
 				})
-				->rawColumns(['status'])->make(true);
+                ->addColumn('action', function ($data) {
+                    $actions = '<a href="'. route('admin.test.testResult', $data->id) .'" class="btn btn-sm btn-light-success btn-clean btn-icon" title="View Result"><i class="la la-eye"></i></a>';
+                    return $actions;
+                })
+				->rawColumns(['status', 'action'])->make(true);
         }
         return view('Admin.tests.assign');
     }
-    public function testResult(Request $request, $test)
+    public function testResult(Request $request,PatientTest $test)
     {
-        // Logic to display the result of a specific test
-        return view('Admin.tests.result', compact('test'));
+        $patientTestResult = $test->patientTestResult;
+
+			if(!($patientTestResult)) {
+				Session::flash('message.level', 'warning');
+				Session::flash('message.content', 'The test is not completed yet.');
+
+				return redirect()->route('dashboard');
+			}
+			$responseData = collect(json_decode($patientTestResult->response));
+
+            return view('patient.test.result', compact( 'test', 'responseData', 'patientTestResult'));
     }
     public function patientTests(Request $request, $patient)
     {
