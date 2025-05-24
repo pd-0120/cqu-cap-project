@@ -45,10 +45,13 @@ class TestController extends Controller
         // Logic to display all tests
         return view('Admin.tests.index');
     }
-    public function assignTests(Request $request)
+    public function assignTests(Request $request, $patient = null)
     {
         if ($request->ajax()) {
             $model = PatientTest::query()->with('assignedBy', 'assignedBy.roles', 'patient', 'patient.roles', 'test');
+            if($patient) {
+                $model = $model->where('patient_id', $patient);
+            }
             return DataTables::eloquent($model)
             ->editColumn('patient_id', function ($data) {
 					return $data->patient?->full_name;
@@ -86,7 +89,7 @@ class TestController extends Controller
                 })
 				->rawColumns(['status', 'action'])->make(true);
         }
-        return view('Admin.tests.assign');
+        return view('Admin.tests.assign', compact('patient'));
     }
     public function testResult(Request $request,PatientTest $test)
     {

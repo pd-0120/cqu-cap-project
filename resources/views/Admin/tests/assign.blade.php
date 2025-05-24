@@ -43,7 +43,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.test.assignTests') }}",
+                ajax: "{{ route('admin.test.assignTests', $patient) }}",
                 columns: [
                     { data: 'id' },
                     { data: 'test_id' },
@@ -57,7 +57,7 @@
                     { data: 'action', orderable: false, searchable: false },
                 ],
                 language: {
-                    emptyTable: "No caretakers found."
+                    emptyTable: "No tests found."
                 }
             });
         });

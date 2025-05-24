@@ -32,7 +32,7 @@ Route::resource('location', LocationController::class);
 
 Route::prefix('tests')->name('test.')->group(function () {
     Route::get('/', [TestController::class, 'index'])->name('index');
-    Route::get('/assign-tests', [TestController::class, 'assignTests'])->name('assignTests');
+    Route::get('/assign-tests/{patient?}', [TestController::class, 'assignTests'])->name('assignTests');
     Route::get('/result/{test}', [TestController::class, 'testResult'])->name('testResult');
     Route::get('/patient/{patient}', [TestController::class, 'patientTests'])->name('patientTests');
 });
