@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CognitiveSkillsListController;
 use App\Http\Controllers\CongnitiveFitController;
-use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PatientTestResultController;
 use App\Http\Controllers\TestController;

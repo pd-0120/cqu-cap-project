@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Enum\UserRolesEnum;
 use App\Http\Controllers\Controller;
+use App\Mail\AlertAdminOfCaretakerRegistrationMail;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Providers\RouteServiceProvider;
@@ -18,6 +19,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CaretakerApprovedNotification;
 use App\Notifications\NewCaretakerRegistrationNotification;
+use Illuminate\Support\Facades\Mail;
 
 class RegisteredUserController extends Controller
 {
@@ -58,9 +60,14 @@ class RegisteredUserController extends Controller
     // Assign Caretaker role
     $user->assignRole(UserRolesEnum::CARETAKER->value);
 
-    // 📩 Notify admin of new registration (assuming notification set up)
-    Notification::route('mail', config('mail.admin_email'))
-    ->notify(new NewCaretakerRegistrationNotification($user));
+    // 📩 Notify admin of new registration
+
+    $admin = User::role(UserRolesEnum::ADMIN->value)->first();
+
+    if($admin) {
+        Mail::to($admin->email)->send(new AlertAdminOfCaretakerRegistrationMail($user));
+    }
+   
 
     // ✅ Show user a message
     return redirect()->route('login')->with('status', 'Registration successful. Please wait for admin approval.');
