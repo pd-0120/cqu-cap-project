@@ -32,7 +32,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
         'cognifit_user_token',
         'secret_password',
-        'dob'
+        'dob',
+        'is_approved'
     ];
 
     /**
@@ -55,6 +56,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_approved' => 'boolean',
     ];
 
     protected static function booted(): void

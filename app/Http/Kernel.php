@@ -73,6 +73,9 @@ class Kernel extends HttpKernel
         'caretakerAccess' => CareTakerAccessMiddleware::class,
         'userAccess' => UserAccessMiddleware::class,
         'adminAccess' => AdminAccessMiddleware::class,
-
+        'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+        'user.approved' => \App\Http\Middleware\EnsureUserIsApproved::class,
     ];
 }
