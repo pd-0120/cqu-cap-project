@@ -8,8 +8,7 @@ This project is an **AI-powered cognitive health monitoring system** designed to
 - 📊 **Dashboard Overview** – View assigned patients, cognitive scores, alerts, and upcoming appointments.  
 - 👤 **Patient Management** – Add, update, and monitor patient details.  
 - 🔔 **Alerts & Notifications** – Receive warnings on cognitive decline, missed exercises, and upcoming medical visits.  
-- 📑 **Reports & Insights** – Generate and download cognitive health reports for doctors or family members.  
-- 💬 **Messaging System** – Communicate with patients or healthcare providers.  
+- 📑 **Reports & Insights** – Generate and download cognitive health reports for doctors or family members.   
 
 ### **For Patients**
 - 🎯 **Personalized Brain Exercises** – AI-generated cognitive tasks to improve memory and problem-solving.  
@@ -21,8 +20,8 @@ This project is an **AI-powered cognitive health monitoring system** designed to
 - **Frontend:** Blade 
 - **Database:** MySQL  
 - **Authentication:** Laravel Breeze
-- **AI Integration:** OpenAI for cognitive health insights  
-- **Charts & Reports:** Chart.js for cognitive score visualization  
+- **AI Integration:** Gemini for cognitive health insights  
+- **Charts & Reports:** Chart.js and ApexChart for cognitive score visualization  
 
 ## 📂 Installation & Setup
 1. Clone the repository:

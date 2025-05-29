@@ -26,6 +26,7 @@ class CreateAdminUserSeeder extends Seeder
 			'email_verified_at' => now(),
 			'cognifit_user_token' => null,
 			'secret_password' => $encryptedPassword,
+			'is_approved' => true,
 			'dob' => now()->toDateString()
 		];
 		if(!User::whereEmail($data['email'])->exists()) {

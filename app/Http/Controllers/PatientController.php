@@ -84,7 +84,6 @@ class PatientController extends Controller
             'email' => $request->email,
             'email_verified_at' => now(),
             'password' => Hash::make($password),
-//            'caretaker_id' => Auth::user()->id,
             'secret_password' => $encryptedPassword,
 			'cognifit_user_token' => env('COGNI_FIT_USER_TOKEN', null)
         ]);

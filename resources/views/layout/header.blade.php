@@ -84,13 +84,33 @@
 							<i class="menu-arrow"></i>
 						</a>
 					</li>
+					<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+						<a href="javascript:;" class="menu-link menu-toggle">
+							<span class="menu-text">Tests</span>
+							<i class="menu-arrow"></i>
+						</a>
+						<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+							<ul class="menu-subnav">
+								<li class="menu-item" aria-haspopup="true">
+									<a href=" {{ route('admin.test.index') }}" class="menu-link">
+										<span class="menu-text">All tests</span>
+									</a>
+								</li>
+								<li class="menu-item" aria-haspopup="true">
+									<a href=" {{ route('admin.test.assignTests') }}" class="menu-link">
+										<span class="menu-text">Assigned Tests</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
 					<li class="menu-item">
-    <a href="{{ route('admin.caretakers.index') }}" class="menu-link">
+						<a href="{{ route('admin.caretakers.index') }}" class="menu-link">
 
-        <span class="menu-text">Caretaker</span>
-        <i class="menu-arrow"></i>
-    </a>
-</li>
+							<span class="menu-text">Caretaker</span>
+							<i class="menu-arrow"></i>
+						</a>
+					</li>
 					@endhasrole
 				</ul>
 			</div>

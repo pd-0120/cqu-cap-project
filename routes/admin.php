@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\TestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\PatientController;
@@ -28,3 +29,10 @@ Route::get('patient/assign-caretaker/{patient}', [PatientController::class, 'ass
 Route::post('patient/assign-caretaker/{patient}', [PatientController::class, 'storeAssignCaretaker'])->name('patient.store-assign-caretaker');
 
 Route::resource('location', LocationController::class);
+
+Route::prefix('tests')->name('test.')->group(function () {
+    Route::get('/', [TestController::class, 'index'])->name('index');
+    Route::get('/assign-tests/{patient?}', [TestController::class, 'assignTests'])->name('assignTests');
+    Route::get('/result/{test}', [TestController::class, 'testResult'])->name('testResult');
+    Route::get('/patient/{patient}', [TestController::class, 'patientTests'])->name('patientTests');
+});
