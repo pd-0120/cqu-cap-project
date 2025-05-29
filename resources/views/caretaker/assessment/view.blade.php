@@ -171,7 +171,7 @@
             @endphp
             @if($skill)
                 <div class="col-md-12">
-                    <div class="card card-custom gutter-b">
+                    <div class="card card-custom gutter-b bg-dark-o-90">
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 mr-7">
@@ -183,12 +183,12 @@
                                     <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
                                         <div class="mr-3">
                                             <a href="#"
-                                                class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">{{ $skill->title }}</a>
+                                                class="d-flex align-items-center text-white text-hover-primary font-size-h5 font-weight-bold mr-3">{{ $skill->title }}</a>
 
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center flex-wrap justify-content-between">
-                                        <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">
+                                        <div class="flex-grow-1 font-weight-bold text-white py-2 py-lg-2 mr-5">
                                             {!! $skill->description !!}
                                         </div>
                                     </div>

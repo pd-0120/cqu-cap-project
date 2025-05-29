@@ -85,7 +85,8 @@ class PatientController extends Controller
             'email_verified_at' => now(),
             'password' => Hash::make($password),
             'secret_password' => $encryptedPassword,
-			'cognifit_user_token' => env('COGNI_FIT_USER_TOKEN', null)
+			'cognifit_user_token' => env('COGNI_FIT_USER_TOKEN', null),
+            'is_approved' => true,
         ]);
 
         $user->assignRole(UserRolesEnum::PATIENT->value);
@@ -200,7 +201,7 @@ class PatientController extends Controller
 	}
 
 	public function assignCaretaker(User $patient) {
-		$caretakers = User::select('id', 'first_name', 'last_name', 'email')->role(UserRolesEnum::CARETAKER->name)->get();
+		$caretakers = User::select('id', 'first_name', 'last_name', 'email')->role(UserRolesEnum::CARETAKER->name)->where('is_approved', true)->get();
 
 		return view('patient.assign-caretaker', compact('patient', 'caretakers'));
 	}

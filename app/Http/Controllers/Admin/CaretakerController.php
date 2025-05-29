@@ -82,9 +82,6 @@ class CaretakerController extends Controller
             'is_approved' => false,
         ]);
 
-        // Notify Admin
-        Mail::to(config('mail.admin_email'))->send(new NewCaretakerRequest($user));
-
         Session::flash('message.level', 'success');
         Session::flash('message.content', 'Caretaker created successfully. Awaiting approval.');
 

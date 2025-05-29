@@ -39,7 +39,7 @@
 
                     if (event.data.status === "aborted" || event.data.status === "completed") {
                         $('#cogniFitContent').children().remove();
-                        displayDiv.removeChild(displayDiv.lastChild);
+                        
                         axios.post("{{ route('patient.tests.get-pre-test-result', ['test' => $test->id]) }}", {
                             testId: "{{ $test->id }}",
                             data: event.data

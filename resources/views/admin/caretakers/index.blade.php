@@ -1,11 +1,11 @@
 
 @section('pageTitle', "All Caretakers")
 
-@section('pageActionData')
+{{-- @section('pageActionData')
     <a href="{{ route('admin.caretakers.create') }}" class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">
         Add New Caretaker
     </a>
-@endsection
+@endsection --}}
 
 <x-auth-layout>
     @if(session('message.level'))

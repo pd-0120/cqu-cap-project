@@ -24,6 +24,6 @@ class CongnifitAssessmentListSkills extends Model
     }
 
     public function skill() {
-        return $this->belongsTo(CognitiveSkillsList::class, 'name', 'title');
+        return $this->belongsTo(CognitiveSkillsList::class, 'name', 'key');
     }
 }
