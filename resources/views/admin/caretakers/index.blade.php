@@ -1,49 +1,64 @@
-@extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <h2>Caretaker Approval Panel</h2>
+@section('pageTitle', "All Caretakers")
 
-    @if(session('success'))
-        <div style="color: green;">{{ session('success') }}</div>
+@section('pageActionData')
+    <a href="{{ route('admin.caretakers.create') }}" class="btn btn-fixed-height btn-primary font-weight-bolder font-size-sm px-5 my-1">
+        Add New Caretaker
+    </a>
+@endsection
+
+<x-auth-layout>
+    @if(session('message.level'))
+        <x-alert-component />
     @endif
 
-    <table border="1" cellpadding="10" cellspacing="0">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Is Approved</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($caretakers as $caretaker)
-                <tr>
-                    <td>{{ $caretaker->id }}</td>
-                    <td>{{ $caretaker->first_name }} {{ $caretaker->last_name }}</td>
-                    <td>{{ $caretaker->email }}</td>
-                    <td>{{ $caretaker->is_approved ? 'Yes' : 'No' }}</td>
-                    <td>
-                        @if(!$caretaker->is_approved)
-    <form action="{{ route('admin.caretakers.approve', $caretaker->id) }}" method="POST">
-        @csrf
-        <button type="submit">Approve</button>
-    </form>
-@else
-    <form action="{{ route('admin.caretakers.decline', $caretaker->id) }}" method="POST">
-        @csrf
-        <button type="submit">Reject</button>
-    </form>
-@endif
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-custom card-stretch gutter-b">
+                <div class="card-body pt-7">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="datatableCaretakers" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th>Phone</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody> {{-- empty, DataTables will fill --}}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    </td>
-                </tr>
-            @empty
-                <tr><td colspan="5">No caretakers found.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
-@endsection
+    @push('UserJS')
+    <script>
+        $(document).ready(function () {
+            $('#datatableCaretakers').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('admin.caretakers.index') }}",
+                columns: [
+                    { data: 'id' },
+                    { data: 'name' },
+                    { data: 'email' },
+                    { data: 'status', orderable: false, searchable: false },
+                    { data: 'phone', orderable: false, searchable: false },
+                    { data: 'actions', orderable: false, searchable: false },
+                ],
+                language: {
+                    emptyTable: "No caretakers found."
+                }
+            });
+        });
+    </script>
+    @endpush
+</x-auth-layout>

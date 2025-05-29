@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsApproved
@@ -17,19 +18,20 @@ class EnsureUserIsApproved
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($user) {
-            // Skip approval check for Admins
+            // Allow admins
             if ($user->hasRole('Admin')) {
                 return $next($request);
             }
 
-            // If not approved
+            // Disallow if not approved
             if (!$user->is_approved) {
-                auth()->logout();
+                Auth::logout();
+
                 return redirect()->route('login')->withErrors([
-                    'email' => 'Your account is not approved yet.',
+                    'email' => 'Your account is not approved by the admin yet.',
                 ]);
             }
         }

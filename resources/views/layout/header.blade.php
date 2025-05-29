@@ -84,6 +84,13 @@
 							<i class="menu-arrow"></i>
 						</a>
 					</li>
+					<li class="menu-item">
+    <a href="{{ route('admin.caretakers.index') }}" class="menu-link">
+
+        <span class="menu-text">Caretaker</span>
+        <i class="menu-arrow"></i>
+    </a>
+</li>
 					@endhasrole
 				</ul>
 			</div>

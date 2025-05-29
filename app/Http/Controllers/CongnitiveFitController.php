@@ -26,7 +26,10 @@ class CongnitiveFitController extends Controller
     {
         $userName               = $user->full_name;
         $userEmail              = $user->email;
-        $userBirth              = is_string($user->dob) ? $user->dob :  $user->dob->toDateString();
+        $userBirth = $user->dob
+    ? (is_string($user->dob) ? $user->dob : $user->dob->toDateString())
+    : now()->subYears(30)->toDateString(); // fallback if dob is null
+
         $locale                 = 'en';
         $password               = "E80i0c2$";
         $cognifitApiUserAccount = new UserAccount(
