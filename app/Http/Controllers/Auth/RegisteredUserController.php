@@ -67,7 +67,7 @@ class RegisteredUserController extends Controller
     if($admin) {
         Mail::to($admin->email)->send(new AlertAdminOfCaretakerRegistrationMail($user));
     }
-   
+
 
     // ✅ Show user a message
     return redirect()->route('login')->with('status', 'Registration successful. Please wait for admin approval.');
