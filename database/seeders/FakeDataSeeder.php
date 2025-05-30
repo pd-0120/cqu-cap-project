@@ -62,6 +62,7 @@ class FakeDataSeeder extends Seeder
 				'dob' => $faker->dateTimeBetween('-40 years', '-25 years')->format('Y-m-d'),
 				'created_at' => $now,
 				'updated_at' => $now,
+				'is_approved' => true,
 			];
 		}
 
