@@ -64,6 +64,8 @@ class RegisteredUserController extends Controller
 
     $admin = User::role(UserRolesEnum::ADMIN->value)->first();
 
+    event(new Registered($user));
+    
     if($admin) {
         Mail::to($admin->email)->send(new AlertAdminOfCaretakerRegistrationMail($user));
     }
