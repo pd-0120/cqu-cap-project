@@ -211,6 +211,7 @@ class TestController extends Controller
             'assign_for_date' => today(),
             'status' => PatientTestStatus::PENDING->name,
             'score' => 0,
+			'taken_date' => null,
         ]);
         $newTest->save();
 
