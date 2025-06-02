@@ -8,6 +8,8 @@ enum UserRolesEnum : string
 	case ADMIN = "Admin";
 	case CARETAKER = "CareTaker";
 	case PATIENT = "Patient";
+	case SUPERADMIN = "SuperAdmin";
+	
 
 	public function toString(): string
 	{
@@ -16,6 +18,7 @@ enum UserRolesEnum : string
 			self::ADMIN => 'Admin',
 			self::CARETAKER => 'CareTaker',
 			self::PATIENT => 'Patient',
+			self::SUPERADMIN => 'SuperAdmin',
 		};
 	}
 }

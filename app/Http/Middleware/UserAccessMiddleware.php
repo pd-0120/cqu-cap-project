@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enum\UserRolesEnum;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,6 @@ class UserAccessMiddleware
      */
     public function handle(Request $request, Closure $next): Response|string
     {
-        return Auth::user() && Auth::user()->hasRole("User") ? $next($request) : redirect(route('login'));
+        return Auth::user() && Auth::user()->hasRole(UserRolesEnum::SUPERADMIN->value) ? $next($request) : redirect(route('login'));
     }
 }

@@ -39,9 +39,12 @@ Route::middleware(['auth', 'user.approved', 'caretakerAccess'])
         require __DIR__ . '/caretaker.php';
     });
 
-// General User Routes (must be approved)
-Route::middleware(['auth', 'user.approved', 'userAccess'])->group(function () {
-    require __DIR__ . '/user.php';
+// Super Admin User User Routes
+Route::middleware(['auth', 'userAccess'])
+->name('superadmin.')
+->prefix('superadmin')
+->group(function () {
+    require __DIR__ . '/superadmin.php';
 });
 
 // Admin Panel Routes (Admins skip approval check)
@@ -52,5 +55,6 @@ Route::middleware(['auth', 'adminAccess'])
         require __DIR__ . '/admin.php';
     });
 
+    
 // Authentication Routes
 require __DIR__ . '/auth.php';

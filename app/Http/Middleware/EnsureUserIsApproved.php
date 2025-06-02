@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enum\UserRolesEnum;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,13 +22,8 @@ class EnsureUserIsApproved
         $user = Auth::user();
 
         if ($user) {
-            // Allow admins
-            if ($user->hasRole('Admin')) {
-                return $next($request);
-            }
-
             // Disallow if not approved
-            if (!$user->is_approved) {
+            if ($user->hasRole(UserRolesEnum::CARETAKER->value) && !$user->is_approved) {
                 Auth::logout();
 
                 return redirect()->route('login')->withErrors([

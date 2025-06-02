@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
     // Check if the logged-in user is a caretaker and not approved
     if (auth()->user()->hasRole('Caretaker') && !auth()->user()->is_approved) {
         Auth::logout(); // Logout the user
-
+        dd(":Testing");
         return back()->withErrors([
             'email' => 'Your account is not yet approved by the admin.',
         ]);

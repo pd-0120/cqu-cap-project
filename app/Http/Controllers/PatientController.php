@@ -97,6 +97,7 @@ class PatientController extends Controller
             'emergency_phone' => $request->emergency_phone,
             'medical_history' => $request->medical_history,
             'street' => $request->street,
+            'gender' => $request->gender,
             'suburb' => $request->suburb,
             'state' => $request->state,
             'location_id' => $request->location_id,

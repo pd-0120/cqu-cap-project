@@ -50,11 +50,36 @@ class CreateAdminUserSeeder extends Seeder
 			'email_verified_at' => now(),
 			'cognifit_user_token' => null,
 			'secret_password' => $encryptedPassword,
+			'is_approved' => true,
 			'dob' => now()->toDateString()
 		];
 		if(!User::whereEmail($data['email'])->exists()) {
 			$user = User::create($data);
 			$user->assignRole(UserRolesEnum::ADMIN->value);
+			UserDetail::create([
+				'user_id' => $user->id,
+				'status' => UserStatusEnum::ACTIVE->value,
+			]);
+		}
+
+		$password = "SuperAdmin@321";
+		$hashPassword = Hash::make($password);
+		$encryptedPassword = Crypt::encrypt($password);
+
+        $data = [
+			'first_name' => "Super",
+			'last_name' => "Admin",
+			'email' => "superadmin@example.com",
+			'password' => $hashPassword,
+			'email_verified_at' => now(),
+			'cognifit_user_token' => null,
+			'secret_password' => $encryptedPassword,
+			'is_approved' => true,
+			'dob' => now()->toDateString()
+		];
+		if(!User::whereEmail($data['email'])->exists()) {
+			$user = User::create($data);
+			$user->assignRole(UserRolesEnum::SUPERADMIN->value);
 			UserDetail::create([
 				'user_id' => $user->id,
 				'status' => UserStatusEnum::ACTIVE->value,

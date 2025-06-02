@@ -17,5 +17,6 @@ class RoleSeeder extends Seeder
         Role::create(['name' => UserRolesEnum::ADMIN->value]);
         Role::create(['name' => UserRolesEnum::CARETAKER->value]);
         Role::create(['name' => UserRolesEnum::PATIENT->value]);
+        Role::create(['name' => UserRolesEnum::SUPERADMIN->value]);
     }
 }

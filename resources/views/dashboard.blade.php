@@ -14,4 +14,7 @@
 	@hasrole('Admin')
 	<x-admin-dashboard-component/>
 	@endhasrole
+    @hasrole('SuperAdmin')
+	<x-superadmin-dashboard-component/>
+	@endhasrole
 </x-auth-layout>
