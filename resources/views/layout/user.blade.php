@@ -49,10 +49,12 @@
         <div class="navi navi-spacer-x-0 p-0">
             <span class="navi-item mt-2">
                 <span class="navi-link">
+					 <a href="{{ route('profile')  }}" class="btn btn-sm btn-light-success font-weight-bolder py-3 px-6 mr-2">Profile</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button onclick="event.preventDefault(); this.closest('form').submit();" class="btn btn-sm btn-light-primary font-weight-bolder py-3 px-6">Sign Out</button>
                     </form>
+
                 </span>
             </span>
             <!--end:Item-->

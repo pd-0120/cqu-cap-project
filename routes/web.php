@@ -15,14 +15,17 @@ Route::post('/cognifitCallback', [DashboardController::class, 'cognifitCallback'
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', 'user.approved'])
     ->name('dashboard');
+// Dashboard (requires login + verified email + approval)
+Route::get('/profile', [DashboardController::class, 'profile'])
+	->middleware(['auth'])
+	->name('profile');
+Route::post('/profile', [DashboardController::class, 'updateProfile'])
+	->middleware(['auth'])
+	->name('profile.update');
 
-// Profile Routes (logged-in & approved users only)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
+Route::delete('/profile', [DashboardController::class, 'profile'])
+	->middleware(['auth'])
+	->name('profile.destroy');
 // Patient Routes (must be approved)
 Route::middleware(['auth', 'user.approved', 'patientAccess'])
     ->name('patient.')
@@ -55,6 +58,6 @@ Route::middleware(['auth', 'adminAccess'])
         require __DIR__ . '/admin.php';
     });
 
-    
+
 // Authentication Routes
 require __DIR__ . '/auth.php';
