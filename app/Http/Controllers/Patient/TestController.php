@@ -86,8 +86,8 @@ class TestController extends Controller
 
 		$clientId = config("app.cognifit.client");
 
-		$type = $test->test_type == TestTypeEnum::GAME->toString() ? "gameMode" : ($test->test_type == TestTypeEnum::ASSESSMENT->toString() ? "assessmentMode" : "trainingMode");
-
+		$type = $test->test->test_type == TestTypeEnum::GAME->name ? "gameMode" : ($test->test->test_type == TestTypeEnum::ASSESSMENT->name ? "assessmentMode" : "trainingMode");
+		
 		$task = $test->test->assessment->key;
 
 		return view('patient.test.play', compact('userAccessToken', 'test', 'type', 'task', 'clientId', 'jsVersion'));
